@@ -683,6 +683,29 @@ document.addEventListener('DOMContentLoaded', () => {
   initChecklist();
   initSmoothScroll();
 
+  // Fade in hero background image when loaded
+  const heroBgImg = document.querySelector('.hero__bg-img');
+  if (heroBgImg) {
+    if (heroBgImg.complete) {
+      heroBgImg.classList.add('loaded');
+    } else {
+      heroBgImg.addEventListener('load', () => heroBgImg.classList.add('loaded'));
+    }
+  }
+
+  // Also set up gallery images to open lightbox on click
+  setTimeout(() => {
+    const galleryImgs = $$('.gallery-item img');
+    galleryImgs.forEach(img => {
+      if (!img.complete || img.naturalWidth === 0) {
+        img.closest('.gallery-item')?.classList.add('img-loading');
+      }
+      img.addEventListener('load', () => {
+        img.closest('.gallery-item')?.classList.remove('img-loading');
+      });
+    });
+  }, 500);
+
   // Welcome toast after load
   setTimeout(() => {
     Toast.show('🏔 Welcome to Sarthak\'s Chitkul Kalpa trip site!', 'info', 3500);

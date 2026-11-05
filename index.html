@@ -63,8 +63,9 @@
 
   <!-- ═══════════ HERO ═══════════ -->
   <section class="hero" id="home">
-    <!-- Animated gradient background -->
+    <!-- Background photo + gradient overlay -->
     <div class="hero__bg">
+      <img src="images/hero.jpg" alt="Chitkul village with snow peaks" class="hero__bg-img" onerror="this.style.display='none'">
       <div class="hero__gradient"></div>
       <div class="hero__particles" id="heroParticles"></div>
     </div>
@@ -582,103 +583,61 @@
 
       <!-- Gallery Grid -->
       <div class="gallery-grid" id="galleryGrid">
-        <!-- Sample placeholder images using CSS/SVG -->
-        <div class="gallery-item gallery-item--placeholder" data-caption="Bhimakali Temple, Sarahan">
-          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
-            <div class="gallery-placeholder__content">
-              <span>🛕</span>
-              <p>Bhimakali Temple</p>
-              <small>Sarahan</small>
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>🛕 Bhimakali Temple, Sarahan</span>
-          </div>
+
+        <div class="gallery-item" data-caption="Bhimakali Temple, Sarahan">
+          <img src="images/bhimakali.jpg" alt="Bhimakali Temple Sarahan"
+               onerror="this.parentElement.classList.add('gallery-item--placeholder'); this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#667eea,#764ba2);height:100%\'><div class=\'gallery-placeholder__content\'><span>🛕</span><p>Bhimakali Temple</p><small>Sarahan</small></div></div>';">
+          <div class="gallery-item__overlay"><span>🛕 Bhimakali Temple, Sarahan</span></div>
         </div>
-        <div class="gallery-item gallery-item--placeholder" data-caption="Chitkul Village">
-          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
-            <div class="gallery-placeholder__content">
-              <span>🏘️</span>
-              <p>Chitkul Village</p>
-              <small>India's Last Village</small>
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>🏘️ Chitkul — India's Last Village</span>
-          </div>
+
+        <div class="gallery-item" data-caption="Chitkul — India's Last Village">
+          <img src="images/chitkul.jpg" alt="Chitkul village"
+               onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#f093fb,#f5576c);height:100%\'><div class=\'gallery-placeholder__content\'><span>🏘️</span><p>Chitkul Village</p><small>India\'s Last Village</small></div></div>';">
+          <div class="gallery-item__overlay"><span>🏘️ Chitkul — India's Last Village</span></div>
         </div>
-        <div class="gallery-item gallery-item--placeholder" data-caption="Baspa Valley">
-          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
-            <div class="gallery-placeholder__content">
-              <span>🏔</span>
-              <p>Baspa Valley</p>
-              <small>Snow Clad Peaks</small>
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>🏔 Baspa Valley from ITBP Camp</span>
-          </div>
+
+        <div class="gallery-item" data-caption="Baspa Valley from ITBP Camp">
+          <img src="images/baspa-valley.jpg" alt="Baspa Valley panorama"
+               onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#4facfe,#00f2fe);height:100%\'><div class=\'gallery-placeholder__content\'><span>🏔</span><p>Baspa Valley</p><small>Snow Clad Peaks</small></div></div>';">
+          <div class="gallery-item__overlay"><span>🏔 Baspa Valley from ITBP Camp</span></div>
         </div>
-        <div class="gallery-item gallery-item--placeholder" data-caption="Kinnaur Gate">
-          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)">
-            <div class="gallery-placeholder__content">
-              <span>🚪</span>
-              <p>Kinnaur Gate</p>
-              <small>Gateway to Kinnaur</small>
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>🚪 Kinnaur Gate</span>
-          </div>
+
+        <div class="gallery-item" data-caption="Kinnaur Gate">
+          <img src="images/kinnaur-gate.jpg" alt="Kinnaur Gate"
+               onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#43e97b,#38f9d7);height:100%\'><div class=\'gallery-placeholder__content\'><span>🚪</span><p>Kinnaur Gate</p><small>Gateway to Kinnaur</small></div></div>';">
+          <div class="gallery-item__overlay"><span>🚪 Kinnaur Gate</span></div>
         </div>
-        <div class="gallery-item gallery-item--placeholder" data-caption="Kinner Kailash">
-          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%)">
-            <div class="gallery-placeholder__content">
-              <span>⛰️</span>
-              <p>Kinner Kailash</p>
-              <small>Sacred Snow Peaks</small>
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>⛰️ Kinner Kailash Sacred Peaks</span>
-          </div>
+
+        <div class="gallery-item" data-caption="Kinner Kailash Sacred Peaks">
+          <img src="images/kinner-kailash.jpg" alt="Kinner Kailash peaks"
+               onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#fa709a,#fee140);height:100%\'><div class=\'gallery-placeholder__content\'><span>⛰️</span><p>Kinner Kailash</p><small>Sacred Snow Peaks</small></div></div>';">
+          <div class="gallery-item__overlay"><span>⛰️ Kinner Kailash Sacred Peaks</span></div>
         </div>
-        <div class="gallery-item gallery-item--placeholder" data-caption="Aakhri Dhaba">
-          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)">
-            <div class="gallery-placeholder__content">
-              <span>🏠</span>
-              <p>Aakhri Dhaba</p>
-              <small>Last Dhaba of India</small>
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>🏠 Aakhri Dhaba — Last Dhaba of India</span>
-          </div>
+
+        <div class="gallery-item" data-caption="Kalpa Village">
+          <img src="images/kalpa.jpg" alt="Kalpa village"
+               onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#a18cd1,#fbc2eb);height:100%\'><div class=\'gallery-placeholder__content\'><span>🏘️</span><p>Kalpa Village</p><small>Kinner Kailash View</small></div></div>';">
+          <div class="gallery-item__overlay"><span>🏘️ Kalpa Village</span></div>
         </div>
-        <div class="gallery-item gallery-item--placeholder" data-caption="Roghi Suicide Point">
-          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #fda085 0%, #f6d365 100%)">
-            <div class="gallery-placeholder__content">
-              <span>🌉</span>
-              <p>Roghi Point</p>
-              <small>Suicide Point, Kalpa</small>
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>🌉 Roghi Suicide Point, Kalpa</span>
-          </div>
+
+        <div class="gallery-item" data-caption="Roghi Suicide Point, Kalpa">
+          <img src="images/roghi.jpg" alt="Roghi Suicide Point"
+               onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#fda085,#f6d365);height:100%\'><div class=\'gallery-placeholder__content\'><span>🌉</span><p>Roghi Point</p><small>Suicide Point, Kalpa</small></div></div>';">
+          <div class="gallery-item__overlay"><span>🌉 Roghi Suicide Point, Kalpa</span></div>
         </div>
-        <div class="gallery-item gallery-item--placeholder" data-caption="Sangla Valley">
-          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #96fbc4 0%, #f9f586 100%)">
-            <div class="gallery-placeholder__content">
-              <span>🌿</span>
-              <p>Sangla Valley</p>
-              <small>Apple Orchards</small>
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>🌿 Sangla Valley</span>
-          </div>
+
+        <div class="gallery-item" data-caption="Sangla Valley">
+          <img src="images/sangla.jpg" alt="Sangla Valley"
+               onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#96fbc4,#f9f586);height:100%\'><div class=\'gallery-placeholder__content\'><span>🌿</span><p>Sangla Valley</p><small>Apple Orchards</small></div></div>';">
+          <div class="gallery-item__overlay"><span>🌿 Sangla Valley</span></div>
         </div>
+
+        <div class="gallery-item" data-caption="Overnight Mountain Journey">
+          <img src="images/night-bus.jpg" alt="Night journey through mountains"
+               onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#0D1B35,#1B3464);height:100%\'><div class=\'gallery-placeholder__content\'><span>🌙</span><p>Night Journey</p><small>Delhi to Shimla</small></div></div>';">
+          <div class="gallery-item__overlay"><span>🌙 Overnight Mountain Journey</span></div>
+        </div>
+
       </div>
 
       <!-- Lightbox -->
