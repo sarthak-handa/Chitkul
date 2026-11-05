@@ -13,7 +13,7 @@
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔</text></svg>">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="futuristic.css">
+  <link rel="stylesheet" href="theme.css">
 </head>
 
 <body>
@@ -643,7 +643,7 @@
       <div class="section-header">
         <p class="section-label">Interactive · Live Telemetry</p>
         <h2 class="section-title">Route Simulator</h2>
-        <p class="section-desc">From the whole of India down to Himachal, then onto our road from Delhi to the last village.</p>
+        <p class="section-desc">India → Himachal → our road from Delhi to the last village.</p>
       </div>
 
       <div class="geo-sim" id="geoSim">
@@ -685,6 +685,7 @@
 
         <div class="geo-bar">
           <div class="geo-progress"><div id="geoProgress"></div></div>
+          <div class="geo-bar__row">
           <div class="geo-chips">
             <span class="geo-chip">India</span>
             <span class="geo-chip">Himachal</span>
@@ -700,6 +701,7 @@
             <button class="sim-btn sim-btn--play" id="geoPlay">▶ Play</button>
             <button class="sim-btn sim-btn--reset" id="geoReplay">↺ Replay</button>
             <button class="sim-btn sim-btn--reset geo-speed" id="geoSpeed" aria-label="Playback speed">1×</button>
+          </div>
           </div>
         </div>
       </div>

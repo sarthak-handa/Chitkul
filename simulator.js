@@ -74,7 +74,7 @@
       <feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
     <linearGradient id="gHpFill" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#00f0ff" stop-opacity=".30"/><stop offset="1" stop-color="#a855f7" stop-opacity=".22"/>
+      <stop offset="0" stop-color="#2563ff" stop-opacity=".22"/><stop offset=".55" stop-color="#8b5cf6" stop-opacity=".2"/><stop offset="1" stop-color="#ec4899" stop-opacity=".22"/>
     </linearGradient>`;
 
   const world = el('g', { class: 'geo-world' }, svg);
@@ -471,6 +471,7 @@
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   new IntersectionObserver(entries => {
     entries.forEach(en => {
+      document.body.classList.toggle('sim-in-view', en.isIntersecting && en.intersectionRatio > 0.3);
       if (en.isIntersecting) {
         startLoop();
         const vis = en.intersectionRect.height / Math.min(en.boundingClientRect.height, window.innerHeight);
