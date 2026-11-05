@@ -45,7 +45,10 @@ if (!el.root) throw new Error('gallery markup missing');
 const state = {
   remote: [], filter: 'all', selecting: false, selected: new Set(),
   online: location.protocol !== 'file:', error: null, loaded: false, uploading: 0, viewIdx: -1,
+  // the album list is CDN-cached for ~1 min, so remember our own recent changes and re-apply them
+  added: new Map(), deleted: new Set(),
 };
+const RECENT_MS = 15 * 60 * 1000;
 
 const allItems = () => [...state.remote, ...STATIC];
 const visible = () => allItems().filter(i => state.filter === 'all' || i.type === state.filter);
@@ -59,11 +62,18 @@ async function refresh(quiet) {
     const j = await r.json();
     if (!j.success) throw new Error(j.error || 'Album storage is not connected');
     const local = new Map(state.remote.map(i => [i.id, i]));
-    state.remote = j.items.map(b => ({
-      id: b.pathname, url: b.url, downloadUrl: b.downloadUrl, size: b.size, uploadedAt: b.uploadedAt,
-      thumb: b.thumb || local.get(b.pathname)?.thumb || null,
-      name: displayName(b.pathname), type: typeOf(b.pathname), remote: true,
-    }));
+    const listed = j.items
+      .filter(b => !state.deleted.has(b.pathname))
+      .map(b => ({
+        id: b.pathname, url: b.url, downloadUrl: b.downloadUrl, size: b.size, uploadedAt: b.uploadedAt,
+        thumb: b.thumb || local.get(b.pathname)?.thumb || null,
+        name: displayName(b.pathname), type: typeOf(b.pathname), remote: true,
+      }));
+    // keep our own just-uploaded items until the cached list catches up
+    const have = new Set(listed.map(i => i.id));
+    const now = Date.now();
+    const mine = [...state.added.values()].filter(a => now - a.t < RECENT_MS && !have.has(a.item.id)).map(a => a.item);
+    state.remote = [...mine, ...listed];
     state.error = null;
   } catch (e) {
     state.error = e.message;
@@ -225,6 +235,7 @@ async function remove(items) {
     const j = await r.json();
     if (!j.success) throw new Error(j.error || 'Delete failed');
     const gone = new Set(deletable.map(i => i.id));
+    gone.forEach(id => { state.deleted.add(id); state.added.delete(id); });
     state.remote = state.remote.filter(i => !gone.has(i.id));
     gone.forEach(id => state.selected.delete(id));
     render();
@@ -304,11 +315,13 @@ async function uploadOne(file) {
       }
     } catch { /* thumbnail is optional (e.g. HEIC on non-Apple browsers) */ }
     ui.set(100); ui.done(true);
-    state.remote.unshift({
+    const item = {
       id: blob.pathname, url: blob.url, downloadUrl: blob.downloadUrl, size: file.size,
       uploadedAt: new Date().toISOString(), thumb, name: displayName(blob.pathname),
       type: file.type.startsWith('video/') || VIDEO_EXT.test(file.name) ? 'video' : 'image', remote: true,
-    });
+    };
+    state.remote.unshift(item);
+    state.added.set(item.id, { item, t: Date.now() });
     render();
     return true;
   } catch (e) {
@@ -458,14 +471,15 @@ section.addEventListener('drop', e => {
   handleFiles(e.dataTransfer.files);
 });
 
-// keep the album fresh so everyone's uploads appear
+// pick up other people's uploads when you come back to the tab (no background polling —
+// every list costs one of the 2,000 monthly "advanced operations" on the free plan)
 let lastRefresh = 0;
 const softRefresh = () => {
-  if (document.hidden || state.uploading || Date.now() - lastRefresh < 30000) return;
+  if (document.hidden || state.uploading || Date.now() - lastRefresh < 2 * 60 * 1000) return;
   lastRefresh = Date.now(); refresh(true);
 };
 window.addEventListener('focus', softRefresh);
-setInterval(softRefresh, 60000);
+document.addEventListener('visibilitychange', softRefresh);
 
 /* ── Boot ─────────────────────────────────────────────── */
 render();

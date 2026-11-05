@@ -19,7 +19,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const [media, thumbs] = await Promise.all([listAll('gallery/'), listAll('thumbs/gallery/')]);
+    // ONE list call for the whole store (each list() is an "advanced operation" — the free plan has 2,000/month)
+    const all = await listAll(undefined);
+    const media = all.filter(b => b.pathname.startsWith('gallery/'));
+    const thumbs = all.filter(b => b.pathname.startsWith('thumbs/gallery/'));
     const thumbByPath = new Map(thumbs.map(t => [t.pathname.slice('thumbs/'.length, -'.jpg'.length), t.url]));
 
     const items = media
@@ -33,7 +36,9 @@ export default async function handler(req, res) {
       }))
       .sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
 
-    res.setHeader('Cache-Control', 'no-store');
+    // Vercel's CDN shares one result between all visitors for 60s (and serves it stale while refreshing),
+    // so 50 people opening the site ≈ 1 list operation instead of 50.
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=600');
     return res.status(200).json({
       success: true,
       items,
@@ -41,6 +46,7 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('List handler error:', error);
+    res.setHeader('Cache-Control', 'no-store'); // never cache failures
     return res.status(200).json({ success: false, items: [], error: error.message || 'Could not list gallery.' });
   }
 }
