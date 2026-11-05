@@ -6,8 +6,72 @@
   'use strict';
 
   const DATA = window.MAP_DATA;
+  const host = document.getElementById('geoSim');
+  if (!DATA || !host) return;
+
+  // Markup lives here so the main page and the standalone /simulator page share it.
+  if (!document.getElementById('geoStage')) host.innerHTML = `
+<div class="geo-stage" id="geoStage">
+  <svg id="geoSvg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img"
+    aria-label="Animated map: India, zooming into Himachal Pradesh and the route Delhi, Shimla, Sarahan, Kinnaur Gate, Chitkul, Kalpa"></svg>
+
+  <div class="geo-fx" id="geoFx" aria-hidden="true"></div>
+  <div class="geo-scan" aria-hidden="true"></div>
+  <div class="geo-vignette" aria-hidden="true"></div>
+  <span class="geo-corner geo-corner--tl"></span><span class="geo-corner geo-corner--tr"></span>
+  <span class="geo-corner geo-corner--bl"></span><span class="geo-corner geo-corner--br"></span>
+
+  <div class="geo-hud geo-hud--tl">
+    <span class="geo-hud__live"><i></i> <span id="geoPhase">STANDBY</span></span>
+    <span class="geo-hud__coords" id="geoCoords">—</span>
+  </div>
+  <div class="geo-hud geo-hud--tr">
+    <div class="geo-stat"><span>DAY</span><b id="geoDay">—</b></div>
+    <div class="geo-stat"><span>ALT</span><b><em id="geoAlt">216</em> m</b></div>
+    <div class="geo-stat"><span>DIST</span><b><em id="geoDist">0</em> km</b></div>
+  </div>
+
+  <div class="geo-title" id="geoTitle" aria-live="polite">
+    <h3 id="geoTitleMain"></h3>
+    <p id="geoTitleSub"></p>
+  </div>
+
+  <div class="geo-card" id="geoCard">
+    <img id="geoCardImg" src="" alt="">
+    <div class="geo-card__body">
+      <p class="geo-card__day" id="geoCardDay"></p>
+      <h4 id="geoCardTitle"></h4>
+      <p id="geoCardDesc"></p>
+    </div>
+  </div>
+
+  <button class="geo-start" id="geoStart"><span>▶</span> Launch Simulation</button>
+</div>
+
+<div class="geo-bar">
+  <div class="geo-progress"><div id="geoProgress"></div></div>
+  <div class="geo-bar__row">
+  <div class="geo-chips">
+    <span class="geo-chip">India</span>
+    <span class="geo-chip">Himachal</span>
+    <span class="geo-chip">Delhi</span>
+    <span class="geo-chip">Shimla</span>
+    <span class="geo-chip">Sarahan</span>
+    <span class="geo-chip">Kinnaur Gate</span>
+    <span class="geo-chip">Chitkul</span>
+    <span class="geo-chip">Kalpa</span>
+    <span class="geo-chip">Home</span>
+  </div>
+  <div class="geo-controls">
+    <button class="sim-btn sim-btn--play" id="geoPlay">▶ Play</button>
+    <button class="sim-btn sim-btn--reset" id="geoReplay">↺ Replay</button>
+    <button class="sim-btn sim-btn--reset geo-speed" id="geoSpeed" aria-label="Playback speed">1×</button>
+    <button class="sim-btn sim-btn--reset geo-share" id="geoShare" aria-label="Copy link to this simulator">🔗 Share</button>
+    <a class="sim-btn sim-btn--reset geo-open" id="geoOpen" href="simulator.html" target="_blank" rel="noopener" aria-label="Open simulator full screen">⛶ Full screen</a>
+  </div>
+  </div>
+</div>`;
   const stage = document.getElementById('geoStage');
-  if (!DATA || !stage) return;
 
   const NS = 'http://www.w3.org/2000/svg';
   const { K, LON0, LAT0, C } = DATA.proj;
@@ -67,12 +131,6 @@
   // ── Build SVG scene ────────────────────────────────────
   const defs = el('defs', {}, svg);
   defs.innerHTML = `
-    <filter id="gGlow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="gGlowBig" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
     <linearGradient id="gHpFill" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#2563ff" stop-opacity=".22"/><stop offset=".55" stop-color="#8b5cf6" stop-opacity=".2"/><stop offset="1" stop-color="#ec4899" stop-opacity=".22"/>
     </linearGradient>`;
@@ -108,8 +166,11 @@
     const p = el('path', { d, class: cls, style: `--i:${i++}` }, statesG);
     if (name === 'Himachal Pradesh') hpPath = p;
   }
+  // bounding boxes for off-screen culling while zoomed in
+  const statePaths = [...statesG.children].map(n => ({ n, b: n.getBBox(), hidden: false }));
   // HP re-drawn on top for the glow layer
-  const hpGlow = el('path', { d: DATA.states['Himachal Pradesh'], class: 'geo-hp-glow' }, world);
+  el('path', { d: DATA.states['Himachal Pradesh'], class: 'geo-hp-halo' }, world);
+  el('path', { d: DATA.states['Himachal Pradesh'], class: 'geo-hp-glow' }, world);
 
   // target reticle around HP
   const hpBox = hpPath.getBBox();
@@ -139,7 +200,7 @@
     el('path', { d: seg.d, class: 'geo-ghost' + (seg.ret ? ' geo-ghost--ret' : '') }, routeG);
     const probe = el('path', { d: seg.d, fill: 'none' }, svg);
     const L = probe.getTotalLength();
-    const n = Math.max(80, Math.ceil(L * 8));
+    const n = Math.max(60, Math.ceil(L * 3));
     seg.samples = [];
     for (let s = 0; s <= n; s++) {
       const p = probe.getPointAtLength((s / n) * L);
@@ -172,7 +233,6 @@
     if (id === 'home') return;
     s.xy = proj(s.ll);
     markers[id] = addScaled(s.xy, g => {
-      el('circle', { r: 16, class: 'geo-mk__pulse' }, g);
       el('circle', { r: s.major ? 7 : 5.5, class: 'geo-mk__ring' }, g);
       el('circle', { r: s.major ? 3.2 : 2.6, class: 'geo-mk__dot' }, g);
       const right = id !== 'sarahan';
@@ -186,11 +246,29 @@
 
   // vehicle
   const vehicle = addScaled([0, 0], g => {
-    el('circle', { r: 14, class: 'geo-veh__halo' }, g);
     const body = el('g', { class: 'geo-veh__body' }, g);
     el('path', { d: 'M9 0 L-6 -6 L-3 0 L-6 6 Z', class: 'geo-veh__arrow' }, body);
   }, 'geo-veh');
   const vehBody = vehicle.querySelector('.geo-veh__body');
+  const vehicleRef = scaled.find(x => x.g === vehicle);
+
+  // Pulses live in an HTML layer above the SVG: compositor-only animations,
+  // so they never force the (large) map SVG to re-rasterise.
+  const fxLayer = $('geoFx');
+  const fx = [];
+  const addFx = (cls, posRef) => {
+    const n = document.createElement('span');
+    n.className = cls;
+    fxLayer.appendChild(n);
+    const o = { n, posRef };
+    fx.push(o);
+    return n;
+  };
+  const pulseFor = {};
+  Object.keys(markers).forEach(id => {
+    pulseFor[id] = addFx('geo-pulse', () => STOPS[id].xy);
+  });
+  const vehHalo = addFx('geo-vhalo', () => vehicleRef.pos);
 
   // ── Camera ─────────────────────────────────────────────
   const cam = { x: 0, y: 0, w: 1000 };
@@ -210,11 +288,33 @@
     return fit([Math.min(hpBox.x, d[0]), hpBox.y, hpBox.x + hpBox.width, Math.max(hpBox.y + hpBox.height, d[1])], 1.2);
   };
 
-  function render() {
+  let lastVB = '', lastVeh = '';
+  function render(force) {
     const h = cam.w / aspect;
-    svg.setAttribute('viewBox', `${cam.x - cam.w / 2} ${cam.y - h / 2} ${cam.w} ${h}`);
-    const s = cam.w / pxW;
-    for (const o of scaled) o.g.setAttribute('transform', `translate(${o.pos[0]},${o.pos[1]}) scale(${s})`);
+    const vb = `${(cam.x - cam.w / 2).toFixed(3)} ${(cam.y - h / 2).toFixed(3)} ${cam.w.toFixed(4)} ${h.toFixed(4)}`;
+    const vehPos = vehicleRef ? vehicleRef.pos.join(',') : '';
+    if (!force && vb === lastVB && vehPos === lastVeh) return; // nothing moved → skip all DOM work
+    const camMoved = force || vb !== lastVB;
+    lastVB = vb; lastVeh = vehPos;
+    svg.setAttribute('viewBox', vb);
+    const s = (cam.w / pxW).toFixed(5);
+    for (const o of scaled) {
+      if (!camMoved && o !== vehicleRef) continue;
+      o.g.setAttribute('transform', `translate(${o.pos[0].toFixed(3)},${o.pos[1].toFixed(3)}) scale(${s})`);
+    }
+    const k = pxW / cam.w, ox = cam.x - cam.w / 2, oy = cam.y - h / 2;
+    for (const o of fx) {
+      if (!camMoved && o.n !== vehHalo) continue;
+      const p = o.posRef();
+      o.n.style.transform = `translate3d(${((p[0] - ox) * k).toFixed(1)}px, ${((p[1] - oy) * k).toFixed(1)}px, 0)`;
+    }
+    if (!camMoved) return;
+    // cull states fully outside the view (big win at deep zoom)
+    const m = cam.w * 0.15, vx0 = ox - m, vy0 = oy - m, vx1 = ox + cam.w + m, vy1 = oy + h + m;
+    for (const st of statePaths) {
+      const out = st.b.x > vx1 || st.b.x + st.b.width < vx0 || st.b.y > vy1 || st.b.y + st.b.height < vy0;
+      if (out !== st.hidden) { st.hidden = out; st.n.style.display = out ? 'none' : ''; }
+    }
     // level-of-detail fades
     svg.style.setProperty('--minor', Math.max(0, Math.min(1, (90 - cam.w) / 60)).toFixed(2));
     poi.style.opacity = Math.max(0, Math.min(1, (70 - cam.w) / 30)).toFixed(2);
@@ -312,6 +412,7 @@
     SEGMENTS.forEach(s => { s.line.setAttribute('points', ''); s.glow.setAttribute('points', ''); });
     Object.values(markers).forEach(m => m.classList.remove('on', 'hit'));
     vehicle.classList.remove('on');
+    fx.forEach(o => o.n.classList.remove('on'));
     kmDone = 0;
     ui.dist.textContent = '0';
     ui.alt.textContent = '216';
@@ -324,6 +425,7 @@
 
   // ── The sequence ───────────────────────────────────────
   async function sequence() {
+    // (fx toggles mirror marker/vehicle state)
     const nStages = 2 + SEGMENTS.length;
     // 1 · India
     setPhase('SCANNING · REPUBLIC OF INDIA');
@@ -351,8 +453,10 @@
     svgState('st-scan', 'st-focus', 'st-route');
     await flyTo({ x: STOPS.delhi.xy[0], y: STOPS.delhi.xy[1], w: 45 }, 2200);
     markers.delhi.classList.add('hit');
+    pulseFor.delhi.classList.add('on');
     showCard(STOPS.delhi);
     vehicle.classList.add('on');
+    vehHalo.classList.add('on');
     vehicle_place(SEGMENTS[0], 0);
     setProgress(2 / nStages);
     await wait(1800);
@@ -364,7 +468,7 @@
       hideCard();
       setPhase(seg.ret ? 'RETURN VECTOR · HOME' : `EN ROUTE → ${to.name.toUpperCase()}`);
       await drive(seg, k, nStages);
-      if (markers[seg.to]) markers[seg.to].classList.add('hit');
+      if (markers[seg.to]) { markers[seg.to].classList.add('hit'); pulseFor[seg.to].classList.add('on'); }
       setChip(seg.to);
       setPhase(seg.ret ? 'TOUCHDOWN · DELHI' : `ARRIVED · ${to.name.toUpperCase()}`);
       showCard(to);
@@ -376,6 +480,7 @@
     // 5 · Finale
     hideCard();
     vehicle.classList.remove('on');
+    vehHalo.classList.remove('on');
     setPhase('MISSION COMPLETE');
     svgState('st-scan', 'st-focus', 'st-route', 'st-done');
     await flyTo(HP_VIEW(), 2600);
@@ -388,7 +493,7 @@
     const S = seg.samples;
     const p = S[idx], q = S[Math.min(S.length - 1, idx + 2)], o = S[Math.max(0, idx - 2)];
     vehicle.__pos = p;
-    scaled.find(x => x.g === vehicle).pos = p;
+    vehicleRef.pos = p;
     const ang = Math.atan2(q[1] - o[1], q[0] - o[0]) * 180 / Math.PI;
     vehBody.setAttribute('transform', `rotate(${ang.toFixed(1)})`);
   }
@@ -410,7 +515,7 @@
       seg.line.setAttribute('points', pts);
       seg.glow.setAttribute('points', pts);
       vehicle_place(seg, idx);
-      scaled.find(x => x.g === vehicle).pos = head;
+      vehicleRef.pos = head;
       // follow-cam with slight look-ahead
       const ahead = S[Math.min(S.length - 1, idx + Math.ceil(S.length * 0.06))];
       const tx = lerp(head[0], ahead[0], 0.5), ty = lerp(head[1], ahead[1], 0.5);
@@ -452,6 +557,29 @@
     }
   }
 
+  // Share link to the standalone simulator page
+  const standalone = document.body.classList.contains('sim-page');
+  const shareUrl = () => new URL(location.protocol === 'file:' ? 'simulator.html' : 'simulator', location.href).href;
+  const shareBtn = $('geoShare');
+  shareBtn.addEventListener('click', async () => {
+    const url = standalone ? location.href.split('#')[0] : shareUrl();
+    const label = shareBtn.textContent;
+    try {
+      if (navigator.share && matchMedia('(hover: none)').matches) {
+        await navigator.share({ title: 'Chitkul · Kalpa Route Simulator', text: 'Watch our trip route from Delhi to Chitkul & Kalpa', url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+      shareBtn.textContent = '✓ Link copied';
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+      window.prompt('Copy this link:', url);
+    }
+    setTimeout(() => { shareBtn.textContent = label; }, 2000);
+  });
+  if (standalone) $('geoOpen').remove();
+  else $('geoOpen').href = location.protocol === 'file:' ? 'simulator.html' : '/simulator';
+
   ui.start.addEventListener('click', run);
   ui.replay.addEventListener('click', run);
   ui.play.addEventListener('click', () => {
@@ -462,6 +590,9 @@
     speed = speed === 1 ? 2 : speed === 2 ? 0.5 : 1;
     ui.speed.textContent = `${speed}×`;
   });
+
+  // preload + pre-decode stop photos so cards don't stall a frame
+  Object.values(STOPS).forEach(st => { const im = new Image(); im.src = st.img; im.decode?.().catch(() => {}); });
 
   // ── Lifecycle: render only when visible, autoplay once ──
   resetScene();
@@ -484,5 +615,5 @@
     });
   }, { threshold: Array.from({ length: 21 }, (_, k) => k / 20) }).observe(stage);
 
-  window.addEventListener('resize', () => { measure(); render(); });
+  window.addEventListener('resize', () => { measure(); render(true); });
 })();

@@ -24,7 +24,7 @@
   --rainbow: linear-gradient(100deg, #2563ff 0%, #8b5cf6 35%, #ec4899 68%, #f97316 100%);
   --line: rgba(139, 92, 246, 0.16);
   --line-strong: rgba(139, 92, 246, 0.38);
-  --card: rgba(255, 255, 255, 0.86);
+  --card: rgba(255, 255, 255, 0.95);
   --shadow-sm: 0 2px 10px rgba(79, 70, 229, 0.07);
   --shadow-md: 0 10px 30px rgba(79, 70, 229, 0.10);
   --shadow-lg: 0 18px 50px rgba(79, 70, 229, 0.14);
@@ -308,8 +308,6 @@ body { background: transparent; color: var(--text-primary); }
   background: var(--card);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-md);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   position: relative;
 }
 .countdown__unit::before, .timeline__card::before, .checklist-category::before, .geo-sim::before {
@@ -508,18 +506,18 @@ body { background: transparent; color: var(--text-primary); }
   stroke-width: 2;
   vector-effect: non-scaling-stroke;
   stroke-linejoin: round;
-  filter: url(#gGlow);
   opacity: 0;
   transition: opacity 1.2s;
   pointer-events: none;
 }
-#geoSvg.st-focus .geo-hp-glow { opacity: 1; animation: hpPulse 2.4s ease-in-out infinite; }
-@keyframes hpPulse { 50% { stroke: var(--pink); } }
+/* soft glow via a wide translucent stroke (SVG blur filters caused heavy lag) */
+.geo-hp-halo { fill: none; stroke: var(--violet); stroke-width: 12; stroke-opacity: 0.14; stroke-linejoin: round; vector-effect: non-scaling-stroke; opacity: 0; transition: opacity 1.2s; pointer-events: none; }
+#geoSvg.st-focus .geo-hp-glow, #geoSvg.st-focus .geo-hp-halo { opacity: 1; }
 
 .geo-reticle { opacity: 0; transition: opacity 0.8s; pointer-events: none; }
 #geoSvg.st-focus:not(.st-route) .geo-reticle { opacity: 1; }
 .geo-reticle__ring { fill: none; stroke: rgba(236, 72, 153, 0.7); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
-.geo-reticle__ring--dash { stroke: rgba(37, 99, 255, 0.6); stroke-dasharray: 6 10; transform-box: fill-box; transform-origin: center; animation: spin 14s linear infinite; }
+.geo-reticle__ring--dash { stroke: rgba(37, 99, 255, 0.6); stroke-dasharray: 6 10; }
 .geo-reticle__tick { stroke: var(--pink); stroke-width: 2.5; vector-effect: non-scaling-stroke; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -531,8 +529,6 @@ body { background: transparent; color: var(--text-primary); }
 .geo-trail-glow { stroke: var(--violet); stroke-width: 11; opacity: 0.22; }
 .geo-trail.is-ret { stroke: var(--orange); stroke-width: 2.4; stroke-dasharray: 7 5; }
 .geo-trail-glow.is-ret { stroke: var(--orange); opacity: 0.16; }
-#geoSvg.st-done .geo-trail-glow { animation: trailPulse 2s ease-in-out infinite; }
-@keyframes trailPulse { 50% { opacity: 0.4; } }
 
 .geo-mk { opacity: 0; transition: opacity 0.8s; }
 .geo-mk.on { opacity: 1; }
@@ -541,7 +537,7 @@ body { background: transparent; color: var(--text-primary); }
 .geo-mk__pulse { fill: none; stroke: var(--pink); stroke-width: 1.5; opacity: 0; transform-box: fill-box; transform-origin: center; }
 .geo-mk.hit .geo-mk__ring { stroke: var(--pink); fill: #fdf2f8; }
 .geo-mk.hit .geo-mk__dot { fill: var(--pink); }
-.geo-mk.hit .geo-mk__pulse { animation: mkPulse 1.8s ease-out infinite; }
+
 @keyframes mkPulse { 0% { opacity: 0.9; transform: scale(0.3); } 100% { opacity: 0; transform: scale(1.6); } }
 .geo-mk__label { font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; fill: var(--text-primary); paint-order: stroke; stroke: #fff; stroke-width: 4px; stroke-linejoin: round; }
 .geo-mk__sub { font-family: var(--font-mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.08em; fill: var(--violet); paint-order: stroke; stroke: #fff; stroke-width: 3px; opacity: var(--lod-sub, 1); }
@@ -554,7 +550,7 @@ body { background: transparent; color: var(--text-primary); }
 
 .geo-veh { opacity: 0; transition: opacity 0.4s; }
 .geo-veh.on { opacity: 1; }
-.geo-veh__halo { fill: rgba(236, 72, 153, 0.16); stroke: rgba(236, 72, 153, 0.6); stroke-width: 1.2; animation: halo 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+
 .geo-veh__arrow { fill: var(--pink); stroke: #fff; stroke-width: 1.5; stroke-linejoin: round; }
 @keyframes halo { 50% { transform: scale(1.35); opacity: 0.5; } }
 
@@ -670,6 +666,11 @@ body { background: transparent; color: var(--text-primary); }
   z-index: 6;
 }
 
+/* performance: no live backdrop blur behind the animating map */
+.geo-sim { backdrop-filter: none; -webkit-backdrop-filter: none; background: #fff; }
+.geo-stage { contain: strict; }
+.geo-open { text-decoration: none; display: inline-flex; align-items: center; }
+
 /* control bar: one compact row */
 .geo-bar { padding: 10px 16px 12px; border-top: 1px solid var(--line); background: rgba(255, 255, 255, 0.7); }
 .geo-progress { height: 4px; background: rgba(139, 92, 246, 0.12); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
@@ -692,7 +693,8 @@ body { background: transparent; color: var(--text-primary); }
 @media (max-width: 760px) {
   .geo-bar__row { flex-direction: column; align-items: stretch; gap: 8px; }
   .geo-controls { justify-content: stretch; }
-  .geo-controls .sim-btn { flex: 1; padding: 9px 10px; }
+  .geo-controls .sim-btn { flex: 1; padding: 9px 6px; white-space: nowrap; font-size: 0.7rem; letter-spacing: 0.03em; justify-content: center; }
+  .geo-controls .geo-speed { flex: 0 0 52px; min-width: 0; }
   .simulator-section .section-desc, .simulator-section .section-label { display: none; }
   body.sim-in-view .scroll-top { opacity: 0; visibility: hidden; }
   .geo-stage { height: clamp(300px, calc(100svh - var(--nav-h) - 235px), 640px); }
@@ -703,9 +705,50 @@ body { background: transparent; color: var(--text-primary); }
   .geo-card { right: 10px; left: 10px; width: auto; bottom: 10px; }
   .geo-card img { width: 60px; height: 60px; }
   .geo-mk__label { font-size: 10px; }
+  .geo-title h3 { font-size: 1.3rem; letter-spacing: 0.1em; padding: 0 12px; }
+  .geo-title.show { animation-name: titleInSm; }
+  @keyframes titleInSm { 0% { opacity: 0; filter: blur(6px); } 18% { opacity: 1; filter: blur(0); } 75% { opacity: 1; } 100% { opacity: 0; } }
   .hero__eyebrow { letter-spacing: 0.14em; font-size: 0.66rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero__grid, .geo-scan::after, .hero__glitch::before, .hero__glitch::after { animation: none; }
 }
+
+/* ============================================================
+   STANDALONE SIMULATOR PAGE  (/simulator)
+   ============================================================ */
+body.sim-page { min-height: 100svh; display: flex; flex-direction: column; }
+.sim-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  height: 56px; padding: 0 16px; flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.9); border-bottom: 1px solid var(--line);
+}
+.sim-top__brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.sim-top__brand b { font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sim-top__brand span { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; color: var(--violet); text-transform: uppercase; }
+.sim-top__link { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; background: var(--rainbow); padding: 8px 14px; border-radius: 10px; white-space: nowrap; }
+.sim-main { flex: 1; padding: 12px; display: flex; }
+.sim-main .geo-sim { width: 100%; max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; }
+body.sim-page .geo-stage { height: clamp(260px, calc(100svh - 56px - 24px - 82px), 2000px); }
+@media (max-width: 760px) {
+  .sim-top__brand span { display: none; }
+  .sim-main { padding: 8px; }
+  body.sim-page .geo-stage { height: clamp(300px, calc(100svh - 56px - 16px - 132px), 2000px); }
+}
+
+/* HTML pulse layer (compositor-animated, keeps the SVG static) */
+.geo-fx { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.geo-pulse, .geo-vhalo { position: absolute; left: 0; top: 0; width: 0; height: 0; opacity: 0; transition: opacity 0.4s; will-change: transform; }
+.geo-pulse.on, .geo-vhalo.on { opacity: 1; }
+.geo-pulse::after, .geo-vhalo::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+.geo-pulse::after { width: 40px; height: 40px; left: -20px; top: -20px; border: 1.5px solid var(--pink); animation: fxPulse 1.8s ease-out infinite; }
+.geo-vhalo::after { width: 30px; height: 30px; left: -15px; top: -15px; background: rgba(236, 72, 153, 0.16); border: 1.2px solid rgba(236, 72, 153, 0.6); animation: fxHalo 1.2s ease-in-out infinite; }
+@keyframes fxPulse { 0% { opacity: 0.9; transform: scale(0.25); } 100% { opacity: 0; transform: scale(1.3); } }
+@keyframes fxHalo { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: 0.5; } }
+@media (prefers-reduced-motion: reduce) { .geo-pulse::after, .geo-vhalo::after { animation: none; } }

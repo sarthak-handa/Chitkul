@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Route Simulator · Chitkul · Kalpa · Kinnaur</title>
+  <meta name="description" content="Animated route: India → Himachal Pradesh → Delhi to Shimla, Sarahan, Kinnaur Gate, Chitkul and Kalpa.">
+  <meta property="og:title" content="Chitkul · Kalpa Route Simulator">
+  <meta property="og:description" content="Watch our trip route fly from India down to Himachal and along the road from Delhi to India's last village.">
+  <meta property="og:image" content="images/chitkul.jpg">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+
+<body class="sim-page">
+  <div class="fx-bg" aria-hidden="true"></div>
+
+  <header class="sim-top">
+    <div class="sim-top__brand">
+      <b>🏔 Chitkul · Kalpa</b>
+      <span>Route Simulator</span>
+    </div>
+    <a class="sim-top__link" href="./">Full trip site →</a>
+  </header>
+
+  <main class="sim-main">
+    <div class="geo-sim" id="geoSim"></div>
+  </main>
+
+  <script src="map-data.js"></script>
+  <script src="simulator.js"></script>
+</body>
+
+</html>
