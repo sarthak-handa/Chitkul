@@ -9,7 +9,7 @@
   <title>Sarthak Handa's Chitkul · Kalpa · Kinnaur</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔</text></svg>">
   <link rel="stylesheet" href="style.css">
@@ -70,10 +70,8 @@
 
   <!-- ═══════════ HERO ═══════════ -->
   <section class="hero" id="home">
-    <!-- Background photo + gradient overlay -->
+    <!-- Soft colorful backdrop (photos are shown in the foreground collage) -->
     <div class="hero__bg">
-      <img src="images/hero.jpg" alt="Chitkul village with snow peaks" class="hero__bg-img"
-        onerror="this.style.display='none'">
       <div class="hero__gradient"></div>
       <div class="hero__particles" id="heroParticles"></div>
     </div>
@@ -113,6 +111,7 @@
     </div>
 
     <div class="hero__content">
+      <div class="hero__text">
       <p class="hero__eyebrow">Dec 4 – 9, 2025 · 5 Nights · 6 Days</p>
       <h1 class="hero__title">
         <span class="hero__owner">Sarthak Handa's</span>
@@ -129,6 +128,22 @@
       <div class="hero__cta">
         <a href="#journey" class="btn btn--primary">Explore Journey ↓</a>
         <a href="#countdown" class="btn btn--outline">View Countdown</a>
+      </div>
+      </div>
+
+      <div class="hero__media">
+        <figure class="hero__photo hero__photo--main">
+          <img src="images/hero.jpg" alt="Chitkul village with snow peaks" fetchpriority="high">
+          <figcaption>Chitkul · 3,450 m</figcaption>
+        </figure>
+        <figure class="hero__photo hero__photo--a">
+          <img src="images/kinner-kailash.jpg" alt="Kinner Kailash peaks at dusk">
+          <figcaption>Kinner Kailash</figcaption>
+        </figure>
+        <figure class="hero__photo hero__photo--b">
+          <img src="images/kalpa.jpg" alt="Kalpa village">
+          <figcaption>Kalpa</figcaption>
+        </figure>
       </div>
     </div>
 

@@ -65,7 +65,7 @@
   <div class="geo-controls">
     <button class="sim-btn sim-btn--play" id="geoPlay">▶ Play</button>
     <button class="sim-btn sim-btn--reset" id="geoReplay">↺ Replay</button>
-    <button class="sim-btn sim-btn--reset geo-speed" id="geoSpeed" aria-label="Playback speed">1×</button>
+    <button class="sim-btn sim-btn--reset geo-speed" id="geoSpeed" aria-label="Playback speed">2.5×</button>
     <button class="sim-btn sim-btn--reset geo-share" id="geoShare" aria-label="Copy link to this simulator">🔗 Share</button>
     <a class="sim-btn sim-btn--reset geo-open" id="geoOpen" href="simulator.html" target="_blank" rel="noopener" aria-label="Open simulator full screen">⛶ Full screen</a>
   </div>
@@ -325,7 +325,8 @@
   }
 
   // ── Pausable clock ─────────────────────────────────────
-  let clock = 0, paused = true, last = null, speed = 1, token = 0, running = false;
+  const DEFAULT_SPEED = 2.5;
+  let clock = 0, paused = true, last = null, speed = DEFAULT_SPEED, token = 0, running = false;
   const tickers = new Set();
   const ABORT = Symbol('abort');
   function frame(ts) {
@@ -355,7 +356,7 @@
       tickers.add(tk);
     });
   }
-  const wait = ms => tween(ms, () => {});
+  const wait = ms => tween(Math.max(ms, 1600 * speed), () => {});
 
   function flyTo(target, dur = 2000) {
     const a = { ...cam };
@@ -587,7 +588,7 @@
     setPaused(!paused);
   });
   ui.speed.addEventListener('click', () => {
-    speed = speed === 1 ? 2 : speed === 2 ? 0.5 : 1;
+    speed = speed === 2.5 ? 5 : speed === 5 ? 1 : 2.5;
     ui.speed.textContent = `${speed}×`;
   });
 
