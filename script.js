@@ -446,116 +446,6 @@ function initGallery() {
   });
 }
 
-// ── Route Simulator ──────────────────────────────────────
-function initSimulator() {
-  const playBtn    = $('#simPlay');
-  const resetBtn   = $('#simReset');
-  const progressFill = $('#simProgressFill');
-  const simLocation  = $('#simLocation');
-  const simDesc      = $('#simDesc');
-  const simDayText   = $('#simDayText');
-  const steps        = $$('.sim-step');
-  const traveller    = $('#traveller');
-
-  if (!playBtn) return;
-
-  // Waypoints: [x, y, location, desc, dayText]
-  const waypoints = [
-    { x: 60,  y: 325, location: '🏠 Delhi — Starting Point',     desc: 'Kashmere Gate ISBT · Dec 4, Evening',          day: 'Day 0 · Night Departure' },
-    { x: 200, y: 300, location: '🏔 Shimla — Mountain Gateway',   desc: 'Switch to Traveller · Dec 5, Morning',          day: 'Day 1 · Shimla Arrival' },
-    { x: 350, y: 290, location: '🛕 Sarahan — Bhimakali Temple',  desc: 'Ancient temple visit · Kinnaur Gate',           day: 'Day 1 · Sarahan' },
-    { x: 460, y: 280, location: '🚪 Kinnaur Gate',               desc: 'Gateway to the valley of Kinnaur',              day: 'Day 1 · Kinnaur Entry' },
-    { x: 580, y: 268, location: '🏘️ Chitkul — Last Village',     desc: 'India\'s last village · 3600m altitude',        day: 'Day 1–2 · Chitkul' },
-    { x: 680, y: 260, location: '⛰️ Kalpa — Kinner Kailash',     desc: 'Sacred peaks · Roghi Point · Apple Village',   day: 'Day 3 · Kalpa' },
-  ];
-
-  let currentStep = 0;
-  let animating = false;
-  let animTimeout = null;
-
-  function setStep(idx, animate = true) {
-    const wp = waypoints[idx];
-    if (!wp) return;
-
-    // Move traveller
-    if (traveller) {
-      if (animate) {
-        traveller.style.transition = 'transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-      }
-      traveller.setAttribute('transform', `translate(${wp.x - 15}, ${wp.y - 22})`);
-    }
-
-    // Update progress bar
-    const pct = (idx / (waypoints.length - 1)) * 100;
-    if (progressFill) progressFill.style.width = `${pct}%`;
-
-    // Update steps
-    steps.forEach((s, i) => s.classList.toggle('active', i <= idx));
-
-    // Update info
-    if (simLocation) simLocation.textContent = wp.location;
-    if (simDesc) simDesc.textContent = wp.desc;
-    if (simDayText) simDayText.textContent = wp.day;
-
-    currentStep = idx;
-  }
-
-  function playJourney() {
-    if (animating) return;
-    animating = true;
-    playBtn.textContent = '⏸ Playing...';
-    playBtn.disabled = true;
-
-    function next(idx) {
-      if (idx >= waypoints.length) {
-        animating = false;
-        playBtn.textContent = '▶ Play Again';
-        playBtn.disabled = false;
-        Toast.show('Journey complete! Chitkul & Kalpa await! 🏔', 'success', 4000);
-        return;
-      }
-      setStep(idx, true);
-
-      // Show pulse on current dot
-      const svgDots = document.querySelectorAll('#routeSvg circle');
-      if (svgDots[idx]) {
-        svgDots[idx].style.animation = 'none';
-        svgDots[idx].setAttribute('r', '14');
-        setTimeout(() => svgDots[idx].setAttribute('r', idx === 4 ? '12' : (idx === 5 ? '11' : '8')), 400);
-      }
-
-      animTimeout = setTimeout(() => next(idx + 1), 1500);
-    }
-
-    setStep(0, false);
-    animTimeout = setTimeout(() => next(1), 800);
-  }
-
-  function resetJourney() {
-    clearTimeout(animTimeout);
-    animating = false;
-    playBtn.textContent = '▶ Play Journey';
-    playBtn.disabled = false;
-    if (traveller) traveller.style.transition = 'none';
-    setStep(0, false);
-    Toast.show('Route reset to Delhi!', 'info', 2000);
-  }
-
-  playBtn.addEventListener('click', () => {
-    if (playBtn.textContent.includes('Again')) {
-      resetJourney();
-      setTimeout(playJourney, 100);
-    } else {
-      playJourney();
-    }
-  });
-
-  resetBtn?.addEventListener('click', resetJourney);
-
-  // Init
-  setStep(0, false);
-}
-
 // ── Packing Checklist ────────────────────────────────────
 function initChecklist() {
   const grid        = $('#checklistGrid');
@@ -667,6 +557,20 @@ function initSmoothScroll() {
   });
 }
 
+// ── Cursor spotlight ─────────────────────────────────────
+function initSpotlight() {
+  const spot = $('#fxSpot');
+  if (!spot || matchMedia('(hover: none)').matches) return;
+  let x = -999, y = -999, raf = null;
+  window.addEventListener('pointermove', (e) => {
+    x = e.clientX; y = e.clientY;
+    if (!raf) raf = requestAnimationFrame(() => {
+      spot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      raf = null;
+    });
+  }, { passive: true });
+}
+
 // ── INIT ─────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   Toast.init();
@@ -679,9 +583,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initTimeline();
   initReveal();
   initGallery();
-  initSimulator();
   initChecklist();
   initSmoothScroll();
+  initSpotlight();
 
   // Fade in hero background image when loaded
   const heroBgImg = document.querySelector('.hero__bg-img');

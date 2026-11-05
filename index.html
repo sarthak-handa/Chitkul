@@ -9,13 +9,16 @@
   <title>Sarthak Handa's Chitkul · Kalpa · Kinnaur</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔</text></svg>">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="futuristic.css">
 </head>
 
 <body>
+  <div class="fx-bg" aria-hidden="true"></div>
+  <div class="fx-spot" id="fxSpot" aria-hidden="true"></div>
 
   <!-- ═══════════ LOADER ═══════════ -->
   <div class="loader" id="loader">
@@ -28,7 +31,7 @@
           <line x1="230" y1="40" x2="260" y2="60" stroke="white" stroke-width="2" opacity="0.6" />
         </svg>
       </div>
-      <p class="loader__text">Loading Chitkul · Kalpa · Kinnaur</p>
+      <p class="loader__text">Initialising · Chitkul · Kalpa · Kinnaur</p>
       <div class="loader__dots">
         <span></span><span></span><span></span>
       </div>
@@ -100,11 +103,20 @@
       <div class="cloud cloud--3"></div>
     </div>
 
+    <!-- Futuristic layers -->
+    <div class="hero__grid" aria-hidden="true"></div>
+    <div class="hero__hud" aria-hidden="true">
+      <span class="hero__hud-item hero__hud-item--tl">LAT 31.352°N · LON 78.437°E</span>
+      <span class="hero__hud-item hero__hud-item--tr">ALT 3,450 M · TEMP −8°C</span>
+      <span class="hero__hud-item hero__hud-item--bl">SYS · KINNAUR-01 ONLINE</span>
+      <span class="hero__hud-item hero__hud-item--br">DELHI → CHITKUL · ~640 KM</span>
+    </div>
+
     <div class="hero__content">
       <p class="hero__eyebrow">Dec 4 – 9, 2025 · 5 Nights · 6 Days</p>
       <h1 class="hero__title">
         <span class="hero__owner">Sarthak Handa's</span>
-        <span class="hero__place">Chitkul</span>
+        <span class="hero__place hero__glitch" data-text="Chitkul">Chitkul</span>
         <span class="hero__place hero__place--accent">Kalpa · Kinnaur</span>
       </h1>
       <p class="hero__tagline">India's Last Village. Kinner Kailash. Baspa Valley.</p>
@@ -305,7 +317,7 @@
         <div class="timeline__img-break reveal">
           <img src="images/chitkul.jpg" alt="Chitkul Village — India's Last Village">
           <div class="timeline__img-break-caption">
-            <span>🏘️</span> Chitkul — India's Last Village · 3600m above sea level
+            <span>🏘️</span> Chitkul — India's Last Village · 3,450 m above sea level
           </div>
         </div>
 
@@ -629,128 +641,65 @@
   <section class="simulator-section" id="simulator">
     <div class="container">
       <div class="section-header">
-        <p class="section-label">Interactive</p>
+        <p class="section-label">Interactive · Live Telemetry</p>
         <h2 class="section-title">Route Simulator</h2>
-        <p class="section-desc">Watch your journey unfold across the Himalayas.</p>
+        <p class="section-desc">From the whole of India down to Himachal, then onto our road from Delhi to the last village.</p>
       </div>
 
-      <div class="simulator">
-        <div class="simulator__map" id="simulatorMap">
-          <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" id="routeSvg">
-            <!-- Background -->
-            <defs>
-              <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style="stop-color:#E8F4FD" />
-                <stop offset="60%" style="stop-color:#D0E8F5" />
-                <stop offset="100%" style="stop-color:#B8D4E8" />
-              </linearGradient>
-              <linearGradient id="groundGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style="stop-color:#8FAF7E" />
-                <stop offset="100%" style="stop-color:#6B8A70" />
-              </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
+      <div class="geo-sim" id="geoSim">
+        <div class="geo-stage" id="geoStage">
+          <svg id="geoSvg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img"
+            aria-label="Animated map: India, zooming into Himachal Pradesh and the route Delhi, Shimla, Sarahan, Kinnaur Gate, Chitkul, Kalpa"></svg>
 
-            <!-- Sky -->
-            <rect width="800" height="450" fill="url(#skyGrad)" />
+          <div class="geo-scan" aria-hidden="true"></div>
+          <div class="geo-vignette" aria-hidden="true"></div>
+          <span class="geo-corner geo-corner--tl"></span><span class="geo-corner geo-corner--tr"></span>
+          <span class="geo-corner geo-corner--bl"></span><span class="geo-corner geo-corner--br"></span>
 
-            <!-- Back mountains -->
-            <polygon
-              points="0,350 80,180 160,250 240,140 320,220 400,120 480,200 560,150 640,230 720,160 800,220 800,350"
-              fill="#8B9DC3" opacity="0.5" />
-            <!-- Snow caps -->
-            <polygon points="240,140 265,165 215,165" fill="white" opacity="0.85" />
-            <polygon points="400,120 425,148 375,148" fill="white" opacity="0.9" />
-            <polygon points="560,150 585,175 535,175" fill="white" opacity="0.8" />
-            <polygon points="720,160 743,185 697,185" fill="white" opacity="0.85" />
-
-            <!-- Mid mountains -->
-            <polygon points="0,350 100,250 200,300 300,230 400,280 500,210 600,270 700,240 800,280 800,350"
-              fill="#6B8A9A" opacity="0.6" />
-
-            <!-- Ground/terrain -->
-            <polygon points="0,350 800,350 800,450 0,450" fill="url(#groundGrad)" />
-            <path
-              d="M 0,350 Q 100,340 200,348 Q 300,355 400,345 Q 500,335 600,348 Q 700,358 800,345 L 800,350 L 0,350 Z"
-              fill="#A8C89A" opacity="0.7" />
-
-            <!-- Route path (dashed) -->
-            <path id="routePath"
-              d="M 60,340 Q 120,330 160,320 Q 200,310 240,315 Q 280,318 320,310 Q 380,300 420,295 Q 460,290 500,288 Q 540,285 580,282 Q 620,280 660,278 Q 700,276 740,274"
-              stroke="#3A7BD5" stroke-width="3" fill="none" stroke-dasharray="10,6" opacity="0.9" />
-
-            <!-- Route dots with labels -->
-            <!-- Delhi -->
-            <circle cx="60" cy="340" r="10" fill="#3A7BD5" filter="url(#glow)" />
-            <circle cx="60" cy="340" r="5" fill="white" />
-            <text x="60" y="362" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Delhi</text>
-
-            <!-- Shimla -->
-            <circle cx="200" cy="315" r="9" fill="#2D8A5F" filter="url(#glow)" />
-            <circle cx="200" cy="315" r="4.5" fill="white" />
-            <text x="200" y="336" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Shimla</text>
-
-            <!-- Sarahan -->
-            <circle cx="350" cy="308" r="8" fill="#E8721C" filter="url(#glow)" />
-            <circle cx="350" cy="308" r="4" fill="white" />
-            <text x="350" y="328" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Sarahan</text>
-
-            <!-- Kinnaur Gate -->
-            <circle cx="460" cy="296" r="8" fill="#9B59B6" />
-            <circle cx="460" cy="296" r="4" fill="white" />
-            <text x="460" y="315" text-anchor="middle" font-size="9" fill="#333" font-weight="600">Kinnaur Gate</text>
-
-            <!-- Chitkul -->
-            <circle cx="580" cy="284" r="12" fill="#E84C4C" filter="url(#glow)" />
-            <circle cx="580" cy="284" r="6" fill="white" />
-            <text x="580" y="307" text-anchor="middle" font-size="11" fill="#E84C4C" font-weight="700">Chitkul</text>
-            <text x="580" y="318" text-anchor="middle" font-size="8" fill="#666">Last Village</text>
-
-            <!-- Kalpa -->
-            <circle cx="680" cy="276" r="11" fill="#D4A853" filter="url(#glow)" />
-            <circle cx="680" cy="276" r="5.5" fill="white" />
-            <text x="680" y="296" text-anchor="middle" font-size="11" fill="#8B6914" font-weight="700">Kalpa</text>
-
-            <!-- Traveller vehicle (animated) -->
-            <g id="traveller" transform="translate(50,325)">
-              <text font-size="22">🚐</text>
-            </g>
-          </svg>
-
-          <!-- Day indicator overlay -->
-          <div class="sim-day-overlay" id="simDayOverlay">
-            <span id="simDayText">Press Play to start the journey</span>
+          <div class="geo-hud geo-hud--tl">
+            <span class="geo-hud__live"><i></i> <span id="geoPhase">STANDBY</span></span>
+            <span class="geo-hud__coords" id="geoCoords">—</span>
           </div>
+          <div class="geo-hud geo-hud--tr">
+            <div class="geo-stat"><span>DAY</span><b id="geoDay">—</b></div>
+            <div class="geo-stat"><span>ALT</span><b><em id="geoAlt">216</em> m</b></div>
+            <div class="geo-stat"><span>DIST</span><b><em id="geoDist">0</em> km</b></div>
+          </div>
+
+          <div class="geo-title" id="geoTitle" aria-live="polite">
+            <h3 id="geoTitleMain"></h3>
+            <p id="geoTitleSub"></p>
+          </div>
+
+          <div class="geo-card" id="geoCard">
+            <img id="geoCardImg" src="" alt="">
+            <div class="geo-card__body">
+              <p class="geo-card__day" id="geoCardDay"></p>
+              <h4 id="geoCardTitle"></h4>
+              <p id="geoCardDesc"></p>
+            </div>
+          </div>
+
+          <button class="geo-start" id="geoStart"><span>▶</span> Launch Simulation</button>
         </div>
 
-        <div class="simulator__controls">
-          <div class="sim-info" id="simInfo">
-            <div class="sim-info__location" id="simLocation">🏠 Delhi — Starting Point</div>
-            <div class="sim-info__desc" id="simDesc">Your adventure begins at Kashmere Gate ISBT</div>
+        <div class="geo-bar">
+          <div class="geo-progress"><div id="geoProgress"></div></div>
+          <div class="geo-chips">
+            <span class="geo-chip">India</span>
+            <span class="geo-chip">Himachal</span>
+            <span class="geo-chip">Delhi</span>
+            <span class="geo-chip">Shimla</span>
+            <span class="geo-chip">Sarahan</span>
+            <span class="geo-chip">Kinnaur Gate</span>
+            <span class="geo-chip">Chitkul</span>
+            <span class="geo-chip">Kalpa</span>
+            <span class="geo-chip">Home</span>
           </div>
-
-          <div class="sim-progress-wrap">
-            <div class="sim-progress-track">
-              <div class="sim-progress-fill" id="simProgressFill"></div>
-            </div>
-            <div class="sim-steps">
-              <span class="sim-step active" data-idx="0">Delhi</span>
-              <span class="sim-step" data-idx="1">Shimla</span>
-              <span class="sim-step" data-idx="2">Sarahan</span>
-              <span class="sim-step" data-idx="3">Chitkul</span>
-              <span class="sim-step" data-idx="4">Kalpa</span>
-            </div>
-          </div>
-
-          <div class="sim-buttons">
-            <button class="sim-btn sim-btn--play" id="simPlay">▶ Play Journey</button>
-            <button class="sim-btn sim-btn--reset" id="simReset">↺ Reset</button>
+          <div class="geo-controls">
+            <button class="sim-btn sim-btn--play" id="geoPlay">▶ Play</button>
+            <button class="sim-btn sim-btn--reset" id="geoReplay">↺ Replay</button>
+            <button class="sim-btn sim-btn--reset geo-speed" id="geoSpeed" aria-label="Playback speed">1×</button>
           </div>
         </div>
       </div>
@@ -970,6 +919,8 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="map-data.js"></script>
+  <script src="simulator.js"></script>
 </body>
 
 </html>
