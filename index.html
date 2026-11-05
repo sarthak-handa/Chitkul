@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sarthak Handa's Chitkul Kalpa Kinnaur — A breathtaking journey through the last village of India and the land of Kinner Kailash.">
+  <title>Sarthak Handa's Chitkul · Kalpa · Kinnaur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════════ LOADER ═══════════ -->
+  <div class="loader" id="loader">
+    <div class="loader__inner">
+      <div class="loader__mountains">
+        <svg viewBox="0 0 400 200" class="loader__svg">
+          <polygon points="80,180 160,60 240,180" fill="rgba(255,255,255,0.15)" class="lm1"/>
+          <polygon points="150,180 230,40 310,180" fill="rgba(255,255,255,0.25)" class="lm2"/>
+          <polygon points="220,180 310,70 400,180" fill="rgba(255,255,255,0.12)" class="lm3"/>
+          <line x1="230" y1="40" x2="260" y2="60" stroke="white" stroke-width="2" opacity="0.6"/>
+        </svg>
+      </div>
+      <p class="loader__text">Loading Chitkul · Kalpa · Kinnaur</p>
+      <div class="loader__dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SCROLL PROGRESS ═══════════ -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ═══════════ SCROLL TOP ═══════════ -->
+  <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+
+  <!-- ═══════════ NOTIFICATION TOAST ═══════════ -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ═══════════ NAVBAR ═══════════ -->
+  <nav class="nav" id="navbar">
+    <div class="nav__inner">
+      <a href="#home" class="nav__logo">
+        <span class="nav__logo-icon">🏔</span>
+        <span class="nav__logo-text">Chitkul · Kalpa</span>
+      </a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#home" class="nav__link active">Home</a></li>
+        <li><a href="#countdown" class="nav__link">Countdown</a></li>
+        <li><a href="#journey" class="nav__link">Journey</a></li>
+        <li><a href="#gallery" class="nav__link">Gallery</a></li>
+        <li><a href="#simulator" class="nav__link">Simulator</a></li>
+        <li><a href="#checklist" class="nav__link">Packing</a></li>
+      </ul>
+      <button class="nav__hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero" id="home">
+    <!-- Animated gradient background -->
+    <div class="hero__bg">
+      <div class="hero__gradient"></div>
+      <div class="hero__particles" id="heroParticles"></div>
+    </div>
+
+    <!-- Mountains SVG layer -->
+    <div class="hero__mountains-svg" aria-hidden="true">
+      <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <!-- Back mountains -->
+        <polygon points="0,500 200,200 400,350 600,180 800,300 1000,150 1200,280 1440,160 1440,500" fill="rgba(100,120,160,0.3)"/>
+        <!-- Snow caps -->
+        <polygon points="600,180 625,210 575,210" fill="rgba(255,255,255,0.7)"/>
+        <polygon points="1000,150 1030,185 970,185" fill="rgba(255,255,255,0.7)"/>
+        <!-- Mid mountains -->
+        <polygon points="0,500 100,320 300,420 500,280 700,380 900,250 1100,370 1300,290 1440,350 1440,500" fill="rgba(70,90,130,0.4)"/>
+        <!-- Front mountains -->
+        <polygon points="0,500 150,380 350,460 550,360 750,440 950,340 1150,430 1350,370 1440,400 1440,500" fill="rgba(40,55,90,0.5)"/>
+      </svg>
+    </div>
+
+    <!-- Clouds -->
+    <div class="hero__clouds" aria-hidden="true">
+      <div class="cloud cloud--1"></div>
+      <div class="cloud cloud--2"></div>
+      <div class="cloud cloud--3"></div>
+    </div>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow">Dec 4 – 9, 2025 · 5 Nights · 6 Days</p>
+      <h1 class="hero__title">
+        <span class="hero__owner">Sarthak Handa's</span>
+        <span class="hero__place">Chitkul</span>
+        <span class="hero__place hero__place--accent">Kalpa · Kinnaur</span>
+      </h1>
+      <p class="hero__tagline">India's Last Village. Kinner Kailash. Baspa Valley.</p>
+      <div class="hero__tags">
+        <span class="tag">🏔 High Altitude</span>
+        <span class="tag">❄️ Snow Peaks</span>
+        <span class="tag">🛕 Ancient Temples</span>
+        <span class="tag">🌊 Baspa River</span>
+      </div>
+      <div class="hero__cta">
+        <a href="#journey" class="btn btn--primary">Explore Journey ↓</a>
+        <a href="#countdown" class="btn btn--outline">View Countdown</a>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-label="Scroll down">
+      <div class="hero__scroll-icon"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ COUNTDOWN ═══════════ -->
+  <section class="countdown-section" id="countdown">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">The Adventure Begins</p>
+        <h2 class="section-title">Departure Countdown</h2>
+        <p class="section-desc">December 4, 2025 · 8:00 PM · Delhi Kashmere Gate</p>
+      </div>
+      <div class="countdown" id="countdown-timer">
+        <div class="countdown__unit">
+          <div class="countdown__number" id="cd-days">--</div>
+          <div class="countdown__label">Days</div>
+        </div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit">
+          <div class="countdown__number" id="cd-hours">--</div>
+          <div class="countdown__label">Hours</div>
+        </div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit">
+          <div class="countdown__number" id="cd-mins">--</div>
+          <div class="countdown__label">Minutes</div>
+        </div>
+        <div class="countdown__sep">:</div>
+        <div class="countdown__unit">
+          <div class="countdown__number" id="cd-secs">--</div>
+          <div class="countdown__label">Seconds</div>
+        </div>
+      </div>
+      <div class="countdown__departed" id="countdown-departed" style="display:none">
+        <span class="countdown__launch-icon">🚌</span>
+        <h3>Adventure Has Begun!</h3>
+        <p>The journey to Chitkul & Kalpa is underway!</p>
+      </div>
+      <div class="countdown__info">
+        <div class="countdown__detail">
+          <span class="countdown__detail-icon">📍</span>
+          <span>Delhi Kashmere Gate ISBT</span>
+        </div>
+        <div class="countdown__detail">
+          <span class="countdown__detail-icon">🕗</span>
+          <span>8:00 PM Departure</span>
+        </div>
+        <div class="countdown__detail">
+          <span class="countdown__detail-icon">🌙</span>
+          <span>Overnight Journey</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ JOURNEY ═══════════ -->
+  <section class="journey-section" id="journey">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Day by Day</p>
+        <h2 class="section-title">The Journey</h2>
+        <p class="section-desc">Every moment crafted. Every memory treasured.</p>
+      </div>
+
+      <div class="timeline" id="timeline">
+
+        <!-- DAY 0 -->
+        <div class="timeline__item" data-day="0">
+          <div class="timeline__dot">
+            <span>🌙</span>
+          </div>
+          <div class="timeline__content">
+            <div class="timeline__card">
+              <div class="timeline__card-header">
+                <div class="timeline__day-badge">Day 0</div>
+                <div class="timeline__date">Dec 4, Thu</div>
+              </div>
+              <h3 class="timeline__title">Night Departure — Delhi to Shimla</h3>
+              <p class="timeline__location">📍 Kashmere Gate ISBT, Delhi</p>
+              <div class="timeline__visual timeline__visual--night">
+                <div class="tl-visual-night">
+                  <div class="tl-stars"></div>
+                  <div class="tl-bus">🚌</div>
+                  <div class="tl-road"></div>
+                </div>
+              </div>
+              <div class="timeline__activities">
+                <div class="timeline__activity">
+                  <span class="activity-time">8:00 PM</span>
+                  <span class="activity-icon">🚌</span>
+                  <span class="activity-desc">Board the overnight bus from Delhi Kashmere Gate</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">En Route</span>
+                  <span class="activity-icon">🍽️</span>
+                  <span class="activity-desc">Dinner stop on the highway — classic dhaba style</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">Night</span>
+                  <span class="activity-icon">🌙</span>
+                  <span class="activity-desc">Overnight journey through the mountains</span>
+                </div>
+              </div>
+              <div class="timeline__tags">
+                <span class="tl-tag">Overnight Bus</span>
+                <span class="tl-tag">Highway Dinner</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DAY 1 -->
+        <div class="timeline__item timeline__item--right" data-day="1">
+          <div class="timeline__dot">
+            <span>🌅</span>
+          </div>
+          <div class="timeline__content">
+            <div class="timeline__card">
+              <div class="timeline__card-header">
+                <div class="timeline__day-badge timeline__day-badge--gold">Day 1</div>
+                <div class="timeline__date">Dec 5, Fri</div>
+              </div>
+              <h3 class="timeline__title">Shimla → Sarahan → Chitkul</h3>
+              <p class="timeline__location">📍 Shimla → Bhimakali Temple → Kinnaur Gate → Chitkul</p>
+              <div class="timeline__visual timeline__visual--dawn">
+                <div class="tl-visual-mountains">
+                  <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="dawnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FF9966;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#FF7733;stop-opacity:0.3" />
+                      </linearGradient>
+                    </defs>
+                    <rect width="400" height="180" fill="#FFF5E6"/>
+                    <circle cx="200" cy="50" r="35" fill="#FFD580" opacity="0.9"/>
+                    <polygon points="0,180 80,80 160,130 240,60 320,110 400,70 400,180" fill="#8FA8C0" opacity="0.6"/>
+                    <polygon points="80,80 100,95 60,95" fill="white" opacity="0.8"/>
+                    <polygon points="240,60 265,80 215,80" fill="white" opacity="0.8"/>
+                    <polygon points="0,180 60,130 150,160 250,120 350,150 400,130 400,180" fill="#6B8A70" opacity="0.7"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="timeline__activities">
+                <div class="timeline__activity">
+                  <span class="activity-time">Morning</span>
+                  <span class="activity-icon">☀️</span>
+                  <span class="activity-desc">Arrive Shimla, switch to Traveller vehicle</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">9:00 AM</span>
+                  <span class="activity-icon">🍳</span>
+                  <span class="activity-desc">Breakfast stop en route to Sarahan</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">Afternoon</span>
+                  <span class="activity-icon">🛕</span>
+                  <span class="activity-desc">Bhimakali Temple visit in Sarahan — stunning architecture</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">Late PM</span>
+                  <span class="activity-icon">🚪</span>
+                  <span class="activity-desc">Stop at the iconic Kinnaur Gate</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">Evening</span>
+                  <span class="activity-icon">🏠</span>
+                  <span class="activity-desc">Arrive Chitkul — check into hotel</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">8:00 PM</span>
+                  <span class="activity-icon">🍛</span>
+                  <span class="activity-desc">Dinner at the hotel</span>
+                </div>
+              </div>
+              <div class="timeline__tags">
+                <span class="tl-tag">Long Drive</span>
+                <span class="tl-tag">Temple Visit</span>
+                <span class="tl-tag">Kinnaur Gate</span>
+                <span class="tl-tag">Hotel Checkin</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DAY 2 -->
+        <div class="timeline__item" data-day="2">
+          <div class="timeline__dot">
+            <span>🏕️</span>
+          </div>
+          <div class="timeline__content">
+            <div class="timeline__card">
+              <div class="timeline__card-header">
+                <div class="timeline__day-badge timeline__day-badge--blue">Day 2</div>
+                <div class="timeline__date">Dec 6, Sat</div>
+              </div>
+              <h3 class="timeline__title">Full Day at Chitkul</h3>
+              <p class="timeline__location">📍 Chitkul — India's Last Village</p>
+              <div class="timeline__visual">
+                <div class="tl-visual-chitkul">
+                  <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="200" fill="#E8F4FD"/>
+                    <!-- Snow mountains -->
+                    <polygon points="0,200 100,80 200,130 300,50 400,100 400,200" fill="#94B8D0"/>
+                    <polygon points="100,80 120,95 80,95" fill="white"/>
+                    <polygon points="300,50 325,70 275,70" fill="white"/>
+                    <!-- River -->
+                    <path d="M 0,160 Q 100,150 200,165 Q 300,175 400,160 L 400,200 L 0,200 Z" fill="#5B9EC9" opacity="0.5"/>
+                    <!-- Houses -->
+                    <rect x="60" y="145" width="30" height="25" fill="#C9956B"/>
+                    <polygon points="60,145 90,145 75,130" fill="#8B6655"/>
+                    <rect x="110" y="140" width="35" height="30" fill="#D4A26A"/>
+                    <polygon points="110,140 145,140 127,120" fill="#9B7260"/>
+                    <!-- Flag -->
+                    <line x1="200" y1="130" x2="200" y2="100" stroke="#333" stroke-width="1.5"/>
+                    <polygon points="200,100 220,108 200,116" fill="#FF6633"/>
+                    <!-- Pine trees -->
+                    <polygon points="250,170 260,145 270,170" fill="#2D7A3A"/>
+                    <polygon points="275,165 287,138 299,165" fill="#2D7A3A"/>
+                    <!-- Snowflakes -->
+                    <text x="30" y="40" font-size="14" opacity="0.5">❄</text>
+                    <text x="350" y="30" font-size="12" opacity="0.4">❄</text>
+                    <text x="180" y="25" font-size="10" opacity="0.6">❄</text>
+                  </svg>
+                </div>
+              </div>
+              <div class="timeline__activities">
+                <div class="timeline__activity">
+                  <span class="activity-time">8:00 AM</span>
+                  <span class="activity-icon">🍳</span>
+                  <span class="activity-desc">Breakfast at hotel</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">9:30 AM</span>
+                  <span class="activity-icon">⛺</span>
+                  <span class="activity-desc">Visit ITBP Camp — panoramic views of Baspa Valley & snow peaks</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">11:00 AM</span>
+                  <span class="activity-icon">🌊</span>
+                  <span class="activity-desc">Riverside walk along the Baspa River</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">1:00 PM</span>
+                  <span class="activity-icon">🏠</span>
+                  <span class="activity-desc">Aakhri Dhaba — the Last Dhaba of India!</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">3:00 PM</span>
+                  <span class="activity-icon">🛕</span>
+                  <span class="activity-desc">Mathi Temple — ancient local deity temple</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">Evening</span>
+                  <span class="activity-icon">🏠</span>
+                  <span class="activity-desc">Return to hotel, rest & freshen up</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">8:00 PM</span>
+                  <span class="activity-icon">🍛</span>
+                  <span class="activity-desc">Dinner at hotel</span>
+                </div>
+              </div>
+              <div class="timeline__tags">
+                <span class="tl-tag">ITBP Camp</span>
+                <span class="tl-tag">Baspa River</span>
+                <span class="tl-tag">Last Dhaba</span>
+                <span class="tl-tag">Mathi Temple</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DAY 3 -->
+        <div class="timeline__item timeline__item--right" data-day="3">
+          <div class="timeline__dot">
+            <span>🏔</span>
+          </div>
+          <div class="timeline__content">
+            <div class="timeline__card">
+              <div class="timeline__card-header">
+                <div class="timeline__day-badge timeline__day-badge--purple">Day 3</div>
+                <div class="timeline__date">Dec 7, Sun</div>
+              </div>
+              <h3 class="timeline__title">Chitkul → Sangla → Kalpa</h3>
+              <p class="timeline__location">📍 Chitkul → Sangla → Reckong Peo → Kalpa</p>
+              <div class="timeline__visual">
+                <div class="tl-visual-kalpa">
+                  <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="200" fill="#F0EAF8"/>
+                    <!-- Kinner Kailash peaks -->
+                    <polygon points="80,200 160,60 240,200" fill="#8B9DC3"/>
+                    <polygon points="160,60 185,80 135,80" fill="white" opacity="0.9"/>
+                    <polygon points="180,200 260,40 340,200" fill="#7A8DB5"/>
+                    <polygon points="260,40 290,65 230,65" fill="white" opacity="0.9"/>
+                    <polygon points="300,200 360,90 420,200" fill="#9BABC8"/>
+                    <!-- Village of Kalpa -->
+                    <rect x="30" y="155" width="25" height="20" fill="#C9A67A"/>
+                    <polygon points="30,155 55,155 42,138" fill="#B8824A"/>
+                    <rect x="65" y="150" width="30" height="25" fill="#D4B48A"/>
+                    <polygon points="65,150 95,150 80,130" fill="#C99060"/>
+                    <!-- Temple spire -->
+                    <rect x="150" y="145" width="20" height="30" fill="#E8D5B0"/>
+                    <polygon points="150,145 170,145 160,125" fill="#D4A850"/>
+                    <line x1="160" y1="125" x2="160" y2="115" stroke="#D4A850" stroke-width="2"/>
+                    <!-- Sutlej river -->
+                    <path d="M 0,185 Q 100,175 200,182 Q 300,188 400,178 L 400,200 L 0,200 Z" fill="#6BAED6" opacity="0.4"/>
+                    <!-- Stars/snow -->
+                    <text x="20" y="30" font-size="12" opacity="0.5">❄</text>
+                    <text x="370" y="25" font-size="10" opacity="0.4">❄</text>
+                    <text x="200" y="20" font-size="11" opacity="0.5">❄</text>
+                  </svg>
+                </div>
+              </div>
+              <div class="timeline__activities">
+                <div class="timeline__activity">
+                  <span class="activity-time">8:00 AM</span>
+                  <span class="activity-icon">🍳</span>
+                  <span class="activity-desc">Breakfast & checkout from Chitkul hotel</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">9:00 AM</span>
+                  <span class="activity-icon">🚐</span>
+                  <span class="activity-desc">Stop at Sangla — scenic valley town</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">Afternoon</span>
+                  <span class="activity-icon">🏛️</span>
+                  <span class="activity-desc">Reckong Peo — Kinnaur district headquarters, market exploration</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">4:00 PM</span>
+                  <span class="activity-icon">🌄</span>
+                  <span class="activity-desc">Snow-covered peaks of Kinner Kailash — breathtaking views!</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">5:00 PM</span>
+                  <span class="activity-icon">🌉</span>
+                  <span class="activity-desc">Roghi Suicide Point — dramatic cliff viewpoint</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">6:00 PM</span>
+                  <span class="activity-icon">🏘️</span>
+                  <span class="activity-desc">Kalpa village & ancient temple exploration</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">7:30 PM</span>
+                  <span class="activity-icon">🏨</span>
+                  <span class="activity-desc">Check into hotel in Kalpa</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">9:00 PM</span>
+                  <span class="activity-icon">🍛</span>
+                  <span class="activity-desc">Dinner & overnight stay</span>
+                </div>
+              </div>
+              <div class="timeline__tags">
+                <span class="tl-tag">Sangla</span>
+                <span class="tl-tag">Reckong Peo</span>
+                <span class="tl-tag">Kinner Kailash</span>
+                <span class="tl-tag">Roghi Point</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DAY 4 -->
+        <div class="timeline__item" data-day="4">
+          <div class="timeline__dot">
+            <span>🚌</span>
+          </div>
+          <div class="timeline__content">
+            <div class="timeline__card">
+              <div class="timeline__card-header">
+                <div class="timeline__day-badge">Day 4–5</div>
+                <div class="timeline__date">Dec 8–9, Mon–Tue</div>
+              </div>
+              <h3 class="timeline__title">Kalpa → Shimla → Delhi</h3>
+              <p class="timeline__location">📍 Kalpa → Shimla → Delhi (overnight bus)</p>
+              <div class="timeline__visual timeline__visual--return">
+                <div class="tl-visual-return">
+                  <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="180" fill="#FFF8F0"/>
+                    <!-- Road -->
+                    <path d="M 0,120 Q 100,110 200,120 Q 300,130 400,115" stroke="#C0A880" stroke-width="20" fill="none" opacity="0.4"/>
+                    <path d="M 0,120 Q 100,110 200,120 Q 300,130 400,115" stroke="white" stroke-width="2" fill="none" stroke-dasharray="20,15" opacity="0.8"/>
+                    <!-- Mountains fading -->
+                    <polygon points="0,180 100,70 200,120 300,80 400,100 400,180" fill="#94B8D0" opacity="0.3"/>
+                    <!-- Bus -->
+                    <rect x="160" y="100" width="60" height="30" rx="5" fill="#3A7BD5"/>
+                    <rect x="165" y="105" width="12" height="10" rx="2" fill="#87CEEB"/>
+                    <rect x="180" y="105" width="12" height="10" rx="2" fill="#87CEEB"/>
+                    <rect x="195" y="105" width="12" height="10" rx="2" fill="#87CEEB"/>
+                    <circle cx="170" cy="132" r="5" fill="#333"/>
+                    <circle cx="210" cy="132" r="5" fill="#333"/>
+                    <!-- Sunset -->
+                    <circle cx="350" cy="40" r="30" fill="#FFB347" opacity="0.6"/>
+                    <text x="30" y="40" font-size="20">🌅</text>
+                    <text x="30" y="160" font-size="11" fill="#666">Shimla</text>
+                    <text x="175" y="95" font-size="10" fill="#333">Bus</text>
+                    <text x="340" y="160" font-size="11" fill="#666">Delhi</text>
+                  </svg>
+                </div>
+              </div>
+              <div class="timeline__activities">
+                <div class="timeline__activity">
+                  <span class="activity-time">8:00 AM</span>
+                  <span class="activity-icon">🍳</span>
+                  <span class="activity-desc">Breakfast in Kalpa with final Kinner Kailash views</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">Morning</span>
+                  <span class="activity-icon">🚐</span>
+                  <span class="activity-desc">Drive from Kalpa to Shimla</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">Evening</span>
+                  <span class="activity-icon">🌆</span>
+                  <span class="activity-desc">Reach Shimla, board overnight bus to Delhi</span>
+                </div>
+                <div class="timeline__activity">
+                  <span class="activity-time">Dec 9</span>
+                  <span class="activity-icon">🏠</span>
+                  <span class="activity-desc">Arrive Delhi Wednesday morning — memories for a lifetime!</span>
+                </div>
+              </div>
+              <div class="timeline__tags">
+                <span class="tl-tag">Return Journey</span>
+                <span class="tl-tag">Overnight Bus</span>
+                <span class="tl-tag">Home by Dec 9</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end timeline -->
+    </div>
+  </section>
+
+  <!-- ═══════════ GALLERY ═══════════ -->
+  <section class="gallery-section" id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Gallery</p>
+        <h2 class="section-title">A Glimpse of What Awaits</h2>
+        <p class="section-desc">Every frame tells a story. Every vista takes your breath away.</p>
+      </div>
+
+      <!-- Upload Zone -->
+      <div class="gallery-upload" id="galleryUpload">
+        <div class="gallery-upload__header">
+          <h3>📸 Add Photos to Gallery</h3>
+          <p>Drag and drop or select multiple photos to add them directly to our trip gallery.</p>
+        </div>
+        <div class="gallery-upload__dropzone" id="dropzone">
+          <div class="gallery-upload__icon">📸</div>
+          <p class="gallery-upload__title">Drag & drop your images here</p>
+          <p class="gallery-upload__hint">Supports JPG, JPEG, PNG, WEBP · Auto-optimizes HD photos (up to 50 MB)</p>
+          <label class="btn btn--primary gallery-upload__btn" for="fileInput">
+            📁 Select Photos
+          </label>
+          <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp" multiple style="display:none">
+        </div>
+        <div class="gallery-upload__progress" id="uploadProgress" style="display:none">
+          <div class="upload-progress-bar" id="uploadProgressBar"></div>
+          <p id="uploadProgressText">Uploading...</p>
+        </div>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Sample placeholder images using CSS/SVG -->
+        <div class="gallery-item gallery-item--placeholder" data-caption="Bhimakali Temple, Sarahan">
+          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+            <div class="gallery-placeholder__content">
+              <span>🛕</span>
+              <p>Bhimakali Temple</p>
+              <small>Sarahan</small>
+            </div>
+          </div>
+          <div class="gallery-item__overlay">
+            <span>🛕 Bhimakali Temple, Sarahan</span>
+          </div>
+        </div>
+        <div class="gallery-item gallery-item--placeholder" data-caption="Chitkul Village">
+          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
+            <div class="gallery-placeholder__content">
+              <span>🏘️</span>
+              <p>Chitkul Village</p>
+              <small>India's Last Village</small>
+            </div>
+          </div>
+          <div class="gallery-item__overlay">
+            <span>🏘️ Chitkul — India's Last Village</span>
+          </div>
+        </div>
+        <div class="gallery-item gallery-item--placeholder" data-caption="Baspa Valley">
+          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
+            <div class="gallery-placeholder__content">
+              <span>🏔</span>
+              <p>Baspa Valley</p>
+              <small>Snow Clad Peaks</small>
+            </div>
+          </div>
+          <div class="gallery-item__overlay">
+            <span>🏔 Baspa Valley from ITBP Camp</span>
+          </div>
+        </div>
+        <div class="gallery-item gallery-item--placeholder" data-caption="Kinnaur Gate">
+          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)">
+            <div class="gallery-placeholder__content">
+              <span>🚪</span>
+              <p>Kinnaur Gate</p>
+              <small>Gateway to Kinnaur</small>
+            </div>
+          </div>
+          <div class="gallery-item__overlay">
+            <span>🚪 Kinnaur Gate</span>
+          </div>
+        </div>
+        <div class="gallery-item gallery-item--placeholder" data-caption="Kinner Kailash">
+          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%)">
+            <div class="gallery-placeholder__content">
+              <span>⛰️</span>
+              <p>Kinner Kailash</p>
+              <small>Sacred Snow Peaks</small>
+            </div>
+          </div>
+          <div class="gallery-item__overlay">
+            <span>⛰️ Kinner Kailash Sacred Peaks</span>
+          </div>
+        </div>
+        <div class="gallery-item gallery-item--placeholder" data-caption="Aakhri Dhaba">
+          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)">
+            <div class="gallery-placeholder__content">
+              <span>🏠</span>
+              <p>Aakhri Dhaba</p>
+              <small>Last Dhaba of India</small>
+            </div>
+          </div>
+          <div class="gallery-item__overlay">
+            <span>🏠 Aakhri Dhaba — Last Dhaba of India</span>
+          </div>
+        </div>
+        <div class="gallery-item gallery-item--placeholder" data-caption="Roghi Suicide Point">
+          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #fda085 0%, #f6d365 100%)">
+            <div class="gallery-placeholder__content">
+              <span>🌉</span>
+              <p>Roghi Point</p>
+              <small>Suicide Point, Kalpa</small>
+            </div>
+          </div>
+          <div class="gallery-item__overlay">
+            <span>🌉 Roghi Suicide Point, Kalpa</span>
+          </div>
+        </div>
+        <div class="gallery-item gallery-item--placeholder" data-caption="Sangla Valley">
+          <div class="gallery-placeholder" style="background: linear-gradient(135deg, #96fbc4 0%, #f9f586 100%)">
+            <div class="gallery-placeholder__content">
+              <span>🌿</span>
+              <p>Sangla Valley</p>
+              <small>Apple Orchards</small>
+            </div>
+          </div>
+          <div class="gallery-item__overlay">
+            <span>🌿 Sangla Valley</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lightbox -->
+      <div class="lightbox" id="lightbox">
+        <button class="lightbox__close" id="lightboxClose">✕</button>
+        <button class="lightbox__prev" id="lightboxPrev">‹</button>
+        <button class="lightbox__next" id="lightboxNext">›</button>
+        <div class="lightbox__content">
+          <img src="" alt="" id="lightboxImg" class="lightbox__img">
+          <p class="lightbox__caption" id="lightboxCaption"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ ROUTE SIMULATOR ═══════════ -->
+  <section class="simulator-section" id="simulator">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Interactive</p>
+        <h2 class="section-title">Route Simulator</h2>
+        <p class="section-desc">Watch your journey unfold across the Himalayas.</p>
+      </div>
+
+      <div class="simulator">
+        <div class="simulator__map" id="simulatorMap">
+          <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg" id="routeSvg">
+            <!-- Background -->
+            <defs>
+              <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#E8F4FD"/>
+                <stop offset="60%" style="stop-color:#D0E8F5"/>
+                <stop offset="100%" style="stop-color:#B8D4E8"/>
+              </linearGradient>
+              <linearGradient id="groundGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#8FAF7E"/>
+                <stop offset="100%" style="stop-color:#6B8A70"/>
+              </linearGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <!-- Sky -->
+            <rect width="800" height="450" fill="url(#skyGrad)"/>
+
+            <!-- Back mountains -->
+            <polygon points="0,350 80,180 160,250 240,140 320,220 400,120 480,200 560,150 640,230 720,160 800,220 800,350" fill="#8B9DC3" opacity="0.5"/>
+            <!-- Snow caps -->
+            <polygon points="240,140 265,165 215,165" fill="white" opacity="0.85"/>
+            <polygon points="400,120 425,148 375,148" fill="white" opacity="0.9"/>
+            <polygon points="560,150 585,175 535,175" fill="white" opacity="0.8"/>
+            <polygon points="720,160 743,185 697,185" fill="white" opacity="0.85"/>
+
+            <!-- Mid mountains -->
+            <polygon points="0,350 100,250 200,300 300,230 400,280 500,210 600,270 700,240 800,280 800,350" fill="#6B8A9A" opacity="0.6"/>
+
+            <!-- Ground/terrain -->
+            <polygon points="0,350 800,350 800,450 0,450" fill="url(#groundGrad)"/>
+            <path d="M 0,350 Q 100,340 200,348 Q 300,355 400,345 Q 500,335 600,348 Q 700,358 800,345 L 800,350 L 0,350 Z" fill="#A8C89A" opacity="0.7"/>
+
+            <!-- Route path (dashed) -->
+            <path id="routePath"
+              d="M 60,340 Q 120,330 160,320 Q 200,310 240,315 Q 280,318 320,310 Q 380,300 420,295 Q 460,290 500,288 Q 540,285 580,282 Q 620,280 660,278 Q 700,276 740,274"
+              stroke="#3A7BD5" stroke-width="3" fill="none" stroke-dasharray="10,6" opacity="0.9"/>
+
+            <!-- Route dots with labels -->
+            <!-- Delhi -->
+            <circle cx="60" cy="340" r="10" fill="#3A7BD5" filter="url(#glow)"/>
+            <circle cx="60" cy="340" r="5" fill="white"/>
+            <text x="60" y="362" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Delhi</text>
+
+            <!-- Shimla -->
+            <circle cx="200" cy="315" r="9" fill="#2D8A5F" filter="url(#glow)"/>
+            <circle cx="200" cy="315" r="4.5" fill="white"/>
+            <text x="200" y="336" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Shimla</text>
+
+            <!-- Sarahan -->
+            <circle cx="350" cy="308" r="8" fill="#E8721C" filter="url(#glow)"/>
+            <circle cx="350" cy="308" r="4" fill="white"/>
+            <text x="350" y="328" text-anchor="middle" font-size="10" fill="#333" font-weight="600">Sarahan</text>
+
+            <!-- Kinnaur Gate -->
+            <circle cx="460" cy="296" r="8" fill="#9B59B6"/>
+            <circle cx="460" cy="296" r="4" fill="white"/>
+            <text x="460" y="315" text-anchor="middle" font-size="9" fill="#333" font-weight="600">Kinnaur Gate</text>
+
+            <!-- Chitkul -->
+            <circle cx="580" cy="284" r="12" fill="#E84C4C" filter="url(#glow)"/>
+            <circle cx="580" cy="284" r="6" fill="white"/>
+            <text x="580" y="307" text-anchor="middle" font-size="11" fill="#E84C4C" font-weight="700">Chitkul</text>
+            <text x="580" y="318" text-anchor="middle" font-size="8" fill="#666">Last Village</text>
+
+            <!-- Kalpa -->
+            <circle cx="680" cy="276" r="11" fill="#D4A853" filter="url(#glow)"/>
+            <circle cx="680" cy="276" r="5.5" fill="white"/>
+            <text x="680" y="296" text-anchor="middle" font-size="11" fill="#8B6914" font-weight="700">Kalpa</text>
+
+            <!-- Traveller vehicle (animated) -->
+            <g id="traveller" transform="translate(50,325)">
+              <text font-size="22">🚐</text>
+            </g>
+          </svg>
+
+          <!-- Day indicator overlay -->
+          <div class="sim-day-overlay" id="simDayOverlay">
+            <span id="simDayText">Press Play to start the journey</span>
+          </div>
+        </div>
+
+        <div class="simulator__controls">
+          <div class="sim-info" id="simInfo">
+            <div class="sim-info__location" id="simLocation">🏠 Delhi — Starting Point</div>
+            <div class="sim-info__desc" id="simDesc">Your adventure begins at Kashmere Gate ISBT</div>
+          </div>
+
+          <div class="sim-progress-wrap">
+            <div class="sim-progress-track">
+              <div class="sim-progress-fill" id="simProgressFill"></div>
+            </div>
+            <div class="sim-steps">
+              <span class="sim-step active" data-idx="0">Delhi</span>
+              <span class="sim-step" data-idx="1">Shimla</span>
+              <span class="sim-step" data-idx="2">Sarahan</span>
+              <span class="sim-step" data-idx="3">Chitkul</span>
+              <span class="sim-step" data-idx="4">Kalpa</span>
+            </div>
+          </div>
+
+          <div class="sim-buttons">
+            <button class="sim-btn sim-btn--play" id="simPlay">▶ Play Journey</button>
+            <button class="sim-btn sim-btn--reset" id="simReset">↺ Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PACKING CHECKLIST ═══════════ -->
+  <section class="checklist-section" id="checklist">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">Pack Smart</p>
+        <h2 class="section-title">Packing Checklist</h2>
+        <p class="section-desc">Tick items off as you pack. Your progress is saved automatically.</p>
+      </div>
+
+      <!-- Progress -->
+      <div class="checklist-progress">
+        <div class="checklist-progress__bar">
+          <div class="checklist-progress__fill" id="checklistFill"></div>
+        </div>
+        <div class="checklist-progress__info">
+          <span id="checklistCount">0 of 0 items packed</span>
+          <span class="checklist-progress__emoji" id="checklistEmoji">🎒</span>
+        </div>
+      </div>
+
+      <div class="checklist-grid" id="checklistGrid">
+
+        <!-- ESSENTIALS -->
+        <div class="checklist-category">
+          <h3 class="checklist-cat-title">ESSENTIALS</h3>
+          <ul class="checklist-list">
+            <li><label class="checklist-item"><input type="checkbox" data-id="trek-shoes"><span class="checkmark"></span>Trekking Shoes</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="jacket"><span class="checkmark"></span>Jacket</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="backpack-sm"><span class="checkmark"></span>Small Day Backpack (20–30L)</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="water-bottle"><span class="checkmark"></span>Water Bottle</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="sunscreen"><span class="checkmark"></span>Sunscreen</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="sunglasses"><span class="checkmark"></span>Sunglasses</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="powerbank"><span class="checkmark"></span>Power Bank</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="toiletries"><span class="checkmark"></span>Toiletries</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="id-proof"><span class="checkmark"></span>ID Proof</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="cap"><span class="checkmark"></span>Cap</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="lip-balm"><span class="checkmark"></span>Lip Balm</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="big-bag"><span class="checkmark"></span>Big Bag</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="small-backpack"><span class="checkmark"></span>Small Backpack</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="cash"><span class="checkmark"></span>Cash</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="aadhar"><span class="checkmark"></span>Aadhar Card</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="wallet"><span class="checkmark"></span>Wallet</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="tickets"><span class="checkmark"></span>Tickets</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="metro-card"><span class="checkmark"></span>Metro Card</label></li>
+          </ul>
+        </div>
+
+        <!-- CLOTHING -->
+        <div class="checklist-category">
+          <h3 class="checklist-cat-title">CLOTHING</h3>
+          <ul class="checklist-list">
+            <li><label class="checklist-item"><input type="checkbox" data-id="quick-dry"><span class="checkmark"></span>Quick Dry Clothes</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="quick-towel"><span class="checkmark"></span>Quick Dry Towel</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="socks"><span class="checkmark"></span>Socks</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="hoodie"><span class="checkmark"></span>Hoodie</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="joggers"><span class="checkmark"></span>Joggers</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="trousers"><span class="checkmark"></span>Trousers</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="half-tshirts"><span class="checkmark"></span>Half Sleeve Tshirts</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="shorts"><span class="checkmark"></span>Shorts</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="belt"><span class="checkmark"></span>Belt</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="running-shoes"><span class="checkmark"></span>Running Shoes</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="slippers"><span class="checkmark"></span>Slippers</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="hand-towel"><span class="checkmark"></span>Hand Towel</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="swim-costume"><span class="checkmark"></span>Swimming Costume</label></li>
+          </ul>
+        </div>
+
+        <!-- TECH & GEAR -->
+        <div class="checklist-category">
+          <h3 class="checklist-cat-title">TECH &amp; GEAR</h3>
+          <ul class="checklist-list">
+            <li><label class="checklist-item"><input type="checkbox" data-id="charger-apple"><span class="checkmark"></span>Charger (Apple)</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="charger-c"><span class="checkmark"></span>Type C Charger</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="charger-micro"><span class="checkmark"></span>Micro USB Charger</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="speaker"><span class="checkmark"></span>Speaker</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="camera"><span class="checkmark"></span>Camera</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="debit-card"><span class="checkmark"></span>Debit Card</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="credit-card"><span class="checkmark"></span>Credit Card</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="perfume"><span class="checkmark"></span>Perfume</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="watch"><span class="checkmark"></span>Watch</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="caps"><span class="checkmark"></span>Caps</label></li>
+          </ul>
+        </div>
+
+        <!-- HYGIENE & MEDICAL -->
+        <div class="checklist-category">
+          <h3 class="checklist-cat-title">HYGIENE &amp; MEDICAL</h3>
+          <ul class="checklist-list">
+            <li><label class="checklist-item"><input type="checkbox" data-id="brush"><span class="checkmark"></span>Brush</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="toothpaste"><span class="checkmark"></span>Toothpaste</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="shower-gel"><span class="checkmark"></span>Shower Gel</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="shampoo"><span class="checkmark"></span>Shampoo</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="facewash"><span class="checkmark"></span>Facewash</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="hair-brush"><span class="checkmark"></span>Hair Brush</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="sanitizer"><span class="checkmark"></span>Sanitizer</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="face-wipes"><span class="checkmark"></span>Face Wipes</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="medical-kit"><span class="checkmark"></span>Medical Kit</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="norflox"><span class="checkmark"></span>Norflox</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="pcm"><span class="checkmark"></span>PCM</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="ors"><span class="checkmark"></span>ORS</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="glucon-d"><span class="checkmark"></span>Glucon D</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="vitamin-c"><span class="checkmark"></span>Vitamin C</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="band-aid"><span class="checkmark"></span>Band Aid</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="medicines"><span class="checkmark"></span>Medicines</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="snacks"><span class="checkmark"></span>Snacks</label></li>
+            <li><label class="checklist-item"><input type="checkbox" data-id="cold-drinks"><span class="checkmark"></span>Cold Drinks</label></li>
+          </ul>
+        </div>
+
+      </div><!-- end checklist grid -->
+
+      <div class="checklist-actions">
+        <button class="btn btn--outline" id="checklistReset">Reset All</button>
+        <button class="btn btn--primary" id="checklistCheckAll">Check All</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <span class="footer__icon">🏔</span>
+          <div>
+            <h3>Sarthak Handa's Chitkul · Kalpa · Kinnaur</h3>
+            <p>Dec 4–9, 2025 · 5 Nights · 6 Days</p>
+          </div>
+        </div>
+        <div class="footer__links">
+          <a href="#home">Home</a>
+          <a href="#countdown">Countdown</a>
+          <a href="#journey">Journey</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#simulator">Simulator</a>
+          <a href="#checklist">Packing</a>
+        </div>
+        <p class="footer__copy">Made with ❤️ for the mountains · India's Last Village awaits</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+

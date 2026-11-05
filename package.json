@@ -1,0 +1,13 @@
+{
+  "name": "chitkul-kalpa-kinnaur",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Sarthak Handa's Chitkul Kalpa Kinnaur travel microsite",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@vercel/blob": "^0.27.1"
+  }
+}
+
