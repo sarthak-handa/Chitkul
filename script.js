@@ -166,8 +166,8 @@ function initCountdown() {
 
   if (!daysEl) return;
 
-  // Target: 4 Dec 2025 20:00:00 IST (+05:30)
-  const target = new Date('2025-12-04T20:00:00+05:30').getTime();
+  // Target: 4 Dec 2026 20:00:00 IST (+05:30)
+  const target = new Date('2026-12-04T20:00:00+05:30').getTime();
 
   const pad = n => String(Math.max(0, n)).padStart(2, '0');
 
@@ -250,200 +250,6 @@ function initReveal() {
   }, { threshold: 0.1 });
 
   reveals.forEach(el => observer.observe(el));
-}
-
-// ── Gallery ──────────────────────────────────────────────
-function initGallery() {
-  const dropzone   = $('#dropzone');
-  const fileInput  = $('#fileInput');
-  const grid       = $('#galleryGrid');
-  const lightbox   = $('#lightbox');
-  const lbImg      = $('#lightboxImg');
-  const lbCaption  = $('#lightboxCaption');
-  const lbClose    = $('#lightboxClose');
-  const lbPrev     = $('#lightboxPrev');
-  const lbNext     = $('#lightboxNext');
-
-  if (!dropzone || !grid) return;
-
-  let lightboxItems = [];
-  let lightboxIndex = 0;
-
-  // ─ Drag & Drop ─
-  dropzone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropzone.classList.add('drag-over');
-  });
-  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
-  dropzone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropzone.classList.remove('drag-over');
-    handleFiles(e.dataTransfer.files);
-  });
-
-  // ─ File Input ─
-  fileInput.addEventListener('change', () => handleFiles(fileInput.files));
-
-  // ─ Click on dropzone ─
-  dropzone.addEventListener('click', (e) => {
-    if (!e.target.closest('label')) fileInput.click();
-  });
-
-  // ─ Handle Files ─
-  function handleFiles(files) {
-    if (!files || files.length === 0) return;
-
-    const validFiles = [...files].filter(f => {
-      if (!f.type.match(/image\/(jpeg|jpg|png|webp)/i)) {
-        Toast.show(`"${f.name}" is not a supported image format.`, 'warning');
-        return false;
-      }
-      if (f.size > 50 * 1024 * 1024) {
-        Toast.show(`"${f.name}" exceeds 50 MB limit.`, 'error');
-        return false;
-      }
-      return true;
-    });
-
-    if (!validFiles.length) return;
-
-    Toast.show(`Loading ${validFiles.length} photo${validFiles.length > 1 ? 's' : ''}...`, 'info', 2000);
-
-    validFiles.forEach((file, idx) => {
-      setTimeout(() => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          addGalleryItem(e.target.result, file.name.replace(/\.[^.]+$/, ''));
-        };
-        reader.readAsDataURL(file);
-      }, idx * 80);
-    });
-
-    setTimeout(() => {
-      Toast.show(`${validFiles.length} photo${validFiles.length > 1 ? 's' : ''} added to gallery! 🎉`, 'success');
-      // Reset input
-      fileInput.value = '';
-    }, validFiles.length * 80 + 500);
-  }
-
-  // ─ Add gallery item ─
-  function addGalleryItem(src, caption) {
-    const item = document.createElement('div');
-    item.className = 'gallery-item';
-    item.dataset.caption = caption;
-
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = caption;
-    img.loading = 'lazy';
-    img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-
-    const overlay = document.createElement('div');
-    overlay.className = 'gallery-item__overlay';
-    overlay.innerHTML = `📸 ${caption}`;
-
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'gallery-item__delete';
-    deleteBtn.innerHTML = '✕';
-    deleteBtn.title = 'Remove photo';
-    deleteBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      item.style.transform = 'scale(0.85)';
-      item.style.opacity = '0';
-      setTimeout(() => {
-        item.remove();
-        updateLightboxItems();
-        Toast.show('Photo removed from gallery.', 'info', 2000);
-      }, 300);
-    });
-
-    item.appendChild(img);
-    item.appendChild(overlay);
-    item.appendChild(deleteBtn);
-
-    // Animate in
-    item.style.opacity = '0';
-    item.style.transform = 'scale(0.9)';
-    item.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-    grid.appendChild(item);
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        item.style.opacity = '1';
-        item.style.transform = 'scale(1)';
-      });
-    });
-
-    // Lightbox click
-    item.addEventListener('click', () => openLightbox(item));
-    updateLightboxItems();
-  }
-
-  // ─ Lightbox ─
-  function updateLightboxItems() {
-    lightboxItems = $$('.gallery-item', grid);
-  }
-
-  function openLightbox(item) {
-    const idx = lightboxItems.indexOf(item);
-    if (idx === -1) return;
-    lightboxIndex = idx;
-    showLightboxItem(lightboxIndex);
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function showLightboxItem(idx) {
-    const item = lightboxItems[idx];
-    if (!item) return;
-
-    // Get image src
-    const img = item.querySelector('img');
-    const placeholder = item.querySelector('.gallery-placeholder');
-
-    if (img) {
-      lbImg.src = img.src;
-      lbImg.alt = item.dataset.caption || '';
-      lbImg.style.display = 'block';
-    } else if (placeholder) {
-      lbImg.style.display = 'none';
-    }
-
-    lbCaption.textContent = item.dataset.caption || '';
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('open');
-    document.body.style.overflow = '';
-    lbImg.src = '';
-  }
-
-  if (lbClose) lbClose.addEventListener('click', closeLightbox);
-  lightbox?.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
-
-  if (lbPrev) lbPrev.addEventListener('click', () => {
-    lightboxIndex = (lightboxIndex - 1 + lightboxItems.length) % lightboxItems.length;
-    showLightboxItem(lightboxIndex);
-  });
-  if (lbNext) lbNext.addEventListener('click', () => {
-    lightboxIndex = (lightboxIndex + 1) % lightboxItems.length;
-    showLightboxItem(lightboxIndex);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (!lightbox?.classList.contains('open')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') lbPrev?.click();
-    if (e.key === 'ArrowRight') lbNext?.click();
-  });
-
-  // Click existing placeholder items
-  updateLightboxItems();
-  lightboxItems.forEach(item => {
-    item.addEventListener('click', () => openLightbox(item));
-  });
 }
 
 // ── Packing Checklist ────────────────────────────────────
@@ -582,7 +388,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCountdown();
   initTimeline();
   initReveal();
-  initGallery();
   initChecklist();
   initSmoothScroll();
   initSpotlight();
@@ -596,19 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
       heroBgImg.addEventListener('load', () => heroBgImg.classList.add('loaded'));
     }
   }
-
-  // Also set up gallery images to open lightbox on click
-  setTimeout(() => {
-    const galleryImgs = $$('.gallery-item img');
-    galleryImgs.forEach(img => {
-      if (!img.complete || img.naturalWidth === 0) {
-        img.closest('.gallery-item')?.classList.add('img-loading');
-      }
-      img.addEventListener('load', () => {
-        img.closest('.gallery-item')?.classList.remove('img-loading');
-      });
-    });
-  }, 500);
 
   // Welcome toast after load
   setTimeout(() => {

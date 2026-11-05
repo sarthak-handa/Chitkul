@@ -1,63 +1,49 @@
 import { del } from '@vercel/blob';
 
+/*
+ * Deletes gallery items (and their thumbnails).
+ * Body: { "urls": ["https://<store>.public.blob.vercel-storage.com/gallery/..."] }
+ * Only blobs under /gallery/ in a Vercel Blob store can be deleted — nothing else on the site.
+ */
+function isGalleryBlob(u) {
+  try {
+    const url = new URL(u);
+    return url.protocol === 'https:'
+      && url.hostname.endsWith('.public.blob.vercel-storage.com')
+      && url.pathname.startsWith('/gallery/');
+  } catch {
+    return false;
+  }
+}
+
 export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST' && req.method !== 'DELETE') {
+    return res.status(405).json({ success: false, error: 'Method not allowed. Use POST.' });
   }
 
-  if (req.method !== 'POST' && req.method !== 'DELETE') {
-    return res.status(405).json({ success: false, error: 'Method not allowed. Use POST or DELETE.' });
+  let body = req.body;
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch { body = {}; }
   }
+  const urls = [].concat(body?.urls || body?.url || []).filter(Boolean);
+
+  if (!urls.length) return res.status(400).json({ success: false, error: 'No URLs provided.' });
+  if (urls.length > 500) return res.status(400).json({ success: false, error: 'Too many items in one request.' });
+  const bad = urls.filter(u => !isGalleryBlob(u));
+  if (bad.length) return res.status(400).json({ success: false, error: 'Only gallery items can be deleted.' });
+
+  // thumbnails live at /thumbs/gallery/<name>.jpg in the same store
+  const thumbs = urls.map(u => {
+    const url = new URL(u);
+    return `${url.origin}/thumbs${decodeURIComponent(url.pathname)}.jpg`;
+  });
 
   try {
-    let urlToDelete = null;
-
-    if (req.body && typeof req.body === 'object') {
-      urlToDelete = req.body.url;
-    } else if (typeof req.body === 'string') {
-      try {
-        const parsed = JSON.parse(req.body);
-        urlToDelete = parsed.url;
-      } catch (e) {
-        urlToDelete = req.body;
-      }
-    }
-
-    // Fallback if req.body wasn't parsed (since bodyParser might be default or custom)
-    if (!urlToDelete) {
-      const host = req.headers.host || 'localhost';
-      const protocol = req.headers['x-forwarded-proto'] || 'http';
-      const webReq = new Request(`${protocol}://${host}${req.url}`, {
-        method: req.method,
-        headers: req.headers,
-        body: req.method === 'POST' ? req : undefined,
-        duplex: 'half'
-      });
-      try {
-        const json = await webReq.json();
-        urlToDelete = json.url;
-      } catch (e) {
-        const urlParams = new URL(`${protocol}://${host}${req.url}`).searchParams;
-        urlToDelete = urlParams.get('url');
-      }
-    }
-
-    if (!urlToDelete) {
-      return res.status(400).json({ success: false, error: 'Missing image URL to delete.' });
-    }
-
-    // Remove from Vercel Blob Storage
-    await del(urlToDelete);
-
-    return res.status(200).json({
-      success: true,
-      url: urlToDelete
-    });
+    await del([...urls, ...thumbs]);
+    return res.status(200).json({ success: true, deleted: urls.length });
   } catch (error) {
     console.error('Delete handler error:', error);
-    return res.status(500).json({
-      success: false,
-      error: error.message || 'Failed to delete image from Vercel Blob Storage.'
-    });
+    return res.status(500).json({ success: false, error: error.message || 'Delete failed.' });
   }
 }

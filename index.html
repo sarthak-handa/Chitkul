@@ -14,6 +14,7 @@
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔</text></svg>">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="gallery.css">
 </head>
 
 <body>
@@ -112,7 +113,7 @@
 
     <div class="hero__content">
       <div class="hero__text">
-      <p class="hero__eyebrow">Dec 4 – 9, 2025 · 5 Nights · 6 Days</p>
+      <p class="hero__eyebrow">Dec 4 – 9, 2026 · 5 Nights · 6 Days</p>
       <h1 class="hero__title">
         <span class="hero__owner">Sarthak Handa's</span>
         <span class="hero__place hero__glitch" data-text="Chitkul">Chitkul</span>
@@ -158,7 +159,7 @@
       <div class="section-header">
         <p class="section-label">The Adventure Begins</p>
         <h2 class="section-title">Departure Countdown</h2>
-        <p class="section-desc">December 4, 2025 · 8:00 PM · Delhi Kashmere Gate</p>
+        <p class="section-desc">Friday, December 4, 2026 · 8:00 PM · Delhi Kashmere Gate</p>
       </div>
       <div class="countdown" id="countdown-timer">
         <div class="countdown__unit">
@@ -234,7 +235,7 @@
             <div class="timeline__card">
               <div class="timeline__card-header">
                 <div class="timeline__day-badge">Day 0</div>
-                <div class="timeline__date">Dec 4, Thu</div>
+                <div class="timeline__date">Dec 4, Fri</div>
               </div>
               <h3 class="timeline__title">Night Departure — Delhi to Shimla</h3>
               <p class="timeline__location">📍 Kashmere Gate ISBT, Delhi</p>
@@ -275,7 +276,7 @@
             <div class="timeline__card">
               <div class="timeline__card-header">
                 <div class="timeline__day-badge timeline__day-badge--gold">Day 1</div>
-                <div class="timeline__date">Dec 5, Fri</div>
+                <div class="timeline__date">Dec 5, Sat</div>
               </div>
               <h3 class="timeline__title">Shimla → Sarahan → Chitkul</h3>
               <p class="timeline__location">📍 Shimla → Bhimakali Temple → Kinnaur Gate → Chitkul</p>
@@ -344,7 +345,7 @@
             <div class="timeline__card">
               <div class="timeline__card-header">
                 <div class="timeline__day-badge timeline__day-badge--blue">Day 2</div>
-                <div class="timeline__date">Dec 6, Sat</div>
+                <div class="timeline__date">Dec 6, Sun</div>
               </div>
               <h3 class="timeline__title">Full Day at Chitkul</h3>
               <p class="timeline__location">📍 Chitkul — India's Last Village</p>
@@ -418,7 +419,7 @@
             <div class="timeline__card">
               <div class="timeline__card-header">
                 <div class="timeline__day-badge timeline__day-badge--purple">Day 3</div>
-                <div class="timeline__date">Dec 7, Sun</div>
+                <div class="timeline__date">Dec 7, Mon</div>
               </div>
               <h3 class="timeline__title">Chitkul → Sangla → Kalpa</h3>
               <p class="timeline__location">📍 Chitkul → Sangla → Reckong Peo → Kalpa</p>
@@ -496,7 +497,7 @@
             <div class="timeline__card">
               <div class="timeline__card-header">
                 <div class="timeline__day-badge">Day 4–5</div>
-                <div class="timeline__date">Dec 8–9, Mon–Tue</div>
+                <div class="timeline__date">Dec 8–9, Tue–Wed</div>
               </div>
               <h3 class="timeline__title">Kalpa → Shimla → Delhi</h3>
               <p class="timeline__location">📍 Kalpa → Shimla → Delhi (overnight bus)</p>
@@ -538,108 +539,95 @@
     </div>
   </section>
 
-  <!-- ═══════════ GALLERY ═══════════ -->
+  <!-- ═══════════ GALLERY (shared album · Vercel Blob) ═══════════ -->
   <section class="gallery-section" id="gallery">
     <div class="container">
       <div class="section-header">
-        <p class="section-label">Gallery</p>
-        <h2 class="section-title">A Glimpse of What Awaits</h2>
-        <p class="section-desc">Every frame tells a story. Every vista takes your breath away.</p>
+        <p class="section-label">Shared Trip Album</p>
+        <h2 class="section-title">Gallery</h2>
+        <p class="section-desc">Everyone's photos &amp; videos in one place. Upload, view, download and share.</p>
       </div>
 
-      <!-- Upload Zone -->
-      <div class="gallery-upload" id="galleryUpload">
-        <div class="gallery-upload__header">
-          <h3>📸 Add Photos to Gallery</h3>
-          <p>Drag and drop or select multiple photos to add them directly to our trip gallery.</p>
-        </div>
-        <div class="gallery-upload__dropzone" id="dropzone">
-          <div class="gallery-upload__icon">📸</div>
-          <p class="gallery-upload__title">Drag & drop your images here</p>
-          <p class="gallery-upload__hint">Supports JPG, JPEG, PNG, WEBP · Auto-optimizes HD photos (up to 50 MB)</p>
-          <label class="btn btn--primary gallery-upload__btn" for="fileInput">
-            📁 Select Photos
-          </label>
-          <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp" multiple
-            style="display:none">
-        </div>
-        <div class="gallery-upload__progress" id="uploadProgress" style="display:none">
-          <div class="upload-progress-bar" id="uploadProgressBar"></div>
-          <p id="uploadProgressText">Uploading...</p>
-        </div>
-      </div>
-
-      <!-- Gallery Grid -->
-      <div class="gallery-grid" id="galleryGrid">
-
-        <div class="gallery-item" data-caption="Bhimakali Temple, Sarahan">
-          <img src="images/bhimakali.jpg" alt="Bhimakali Temple Sarahan"
-            onerror="this.parentElement.classList.add('gallery-item--placeholder'); this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#667eea,#764ba2);height:100%\'><div class=\'gallery-placeholder__content\'><span>🛕</span><p>Bhimakali Temple</p><small>Sarahan</small></div></div>';">
-          <div class="gallery-item__overlay"><span>🛕 Bhimakali Temple, Sarahan</span></div>
+      <div class="gp" id="gp">
+        <div class="gp-bar">
+          <div class="gp-tabs" role="tablist" aria-label="Filter">
+            <button class="gp-tab active" data-filter="all" role="tab" aria-selected="true">All</button>
+            <button class="gp-tab" data-filter="image" role="tab" aria-selected="false">Photos</button>
+            <button class="gp-tab" data-filter="video" role="tab" aria-selected="false">Videos</button>
+          </div>
+          <p class="gp-stats" id="gpStats">Loading album…</p>
+          <div class="gp-actions">
+            <button class="btn btn--outline gp-select-toggle" id="gpSelectToggle" type="button">Select</button>
+            <label class="btn btn--primary gp-upload-btn" for="gpInput">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0-5 5m5-5 5 5M4 20h16" /></svg>
+              Upload
+            </label>
+            <input type="file" id="gpInput" accept="image/*,video/*" multiple hidden>
+          </div>
         </div>
 
-        <div class="gallery-item" data-caption="Chitkul — India's Last Village">
-          <img src="images/chitkul.jpg" alt="Chitkul village"
-            onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#f093fb,#f5576c);height:100%\'><div class=\'gallery-placeholder__content\'><span>🏘️</span><p>Chitkul Village</p><small>India\'s Last Village</small></div></div>';">
-          <div class="gallery-item__overlay"><span>🏘️ Chitkul — India's Last Village</span></div>
-        </div>
+        <div class="gp-uploads" id="gpUploads" hidden></div>
+        <div class="gp-groups" id="gpGroups" aria-live="polite"></div>
 
-        <div class="gallery-item" data-caption="Baspa Valley from ITBP Camp">
-          <img src="images/baspa-valley.jpg" alt="Baspa Valley panorama"
-            onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#4facfe,#00f2fe);height:100%\'><div class=\'gallery-placeholder__content\'><span>🏔</span><p>Baspa Valley</p><small>Snow Clad Peaks</small></div></div>';">
-          <div class="gallery-item__overlay"><span>🏔 Baspa Valley from ITBP Camp</span></div>
-        </div>
-
-        <div class="gallery-item" data-caption="Kinnaur Gate">
-          <img src="images/kinnaur-gate.jpg" alt="Kinnaur Gate"
-            onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#43e97b,#38f9d7);height:100%\'><div class=\'gallery-placeholder__content\'><span>🚪</span><p>Kinnaur Gate</p><small>Gateway to Kinnaur</small></div></div>';">
-          <div class="gallery-item__overlay"><span>🚪 Kinnaur Gate</span></div>
-        </div>
-
-        <div class="gallery-item" data-caption="Kinner Kailash Sacred Peaks">
-          <img src="images/kinner-kailash.jpg" alt="Kinner Kailash peaks"
-            onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#fa709a,#fee140);height:100%\'><div class=\'gallery-placeholder__content\'><span>⛰️</span><p>Kinner Kailash</p><small>Sacred Snow Peaks</small></div></div>';">
-          <div class="gallery-item__overlay"><span>⛰️ Kinner Kailash Sacred Peaks</span></div>
-        </div>
-
-        <div class="gallery-item" data-caption="Kalpa Village">
-          <img src="images/kalpa.jpg" alt="Kalpa village"
-            onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#a18cd1,#fbc2eb);height:100%\'><div class=\'gallery-placeholder__content\'><span>🏘️</span><p>Kalpa Village</p><small>Kinner Kailash View</small></div></div>';">
-          <div class="gallery-item__overlay"><span>🏘️ Kalpa Village</span></div>
-        </div>
-
-        <div class="gallery-item" data-caption="Roghi Suicide Point, Kalpa">
-          <img src="images/roghi.jpg" alt="Roghi Suicide Point"
-            onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#fda085,#f6d365);height:100%\'><div class=\'gallery-placeholder__content\'><span>🌉</span><p>Roghi Point</p><small>Suicide Point, Kalpa</small></div></div>';">
-          <div class="gallery-item__overlay"><span>🌉 Roghi Suicide Point, Kalpa</span></div>
-        </div>
-
-        <div class="gallery-item" data-caption="Sangla Valley">
-          <img src="images/sangla.jpg" alt="Sangla Valley"
-            onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#96fbc4,#f9f586);height:100%\'><div class=\'gallery-placeholder__content\'><span>🌿</span><p>Sangla Valley</p><small>Apple Orchards</small></div></div>';">
-          <div class="gallery-item__overlay"><span>🌿 Sangla Valley</span></div>
-        </div>
-
-        <div class="gallery-item" data-caption="Overnight Mountain Journey">
-          <img src="images/night-bus.jpg" alt="Night journey through mountains"
-            onerror="this.style.display='none'; this.parentElement.innerHTML += '<div class=\'gallery-placeholder\' style=\'background:linear-gradient(135deg,#0D1B35,#1B3464);height:100%\'><div class=\'gallery-placeholder__content\'><span>🌙</span><p>Night Journey</p><small>Delhi to Shimla</small></div></div>';">
-          <div class="gallery-item__overlay"><span>🌙 Overnight Mountain Journey</span></div>
-        </div>
-
-      </div>
-
-      <!-- Lightbox -->
-      <div class="lightbox" id="lightbox">
-        <button class="lightbox__close" id="lightboxClose">✕</button>
-        <button class="lightbox__prev" id="lightboxPrev">‹</button>
-        <button class="lightbox__next" id="lightboxNext">›</button>
-        <div class="lightbox__content">
-          <img src="" alt="" id="lightboxImg" class="lightbox__img">
-          <p class="lightbox__caption" id="lightboxCaption"></p>
+        <div class="gp-drop" id="gpDrop" aria-hidden="true">
+          <div>
+            <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-5 5m5-5 5 5M4 20h16" /></svg>
+            <b>Drop photos &amp; videos to upload</b>
+            <span>They'll be added to the shared album for everyone</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- selection bar -->
+  <div class="gp-selbar" id="gpSelbar" hidden>
+    <button class="gp-selbar__x" id="gpSelClear" aria-label="Clear selection">✕</button>
+    <span id="gpSelCount">0 selected</span>
+    <div class="gp-selbar__tools">
+      <button id="gpSelShare" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13" /></svg>Share</button>
+      <button id="gpSelDownload" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m0 0-5-5m5 5 5-5M4 20h16" /></svg>Download</button>
+      <button id="gpSelDelete" class="is-danger" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" /></svg>Delete</button>
+    </div>
+  </div>
+
+  <!-- full-screen viewer -->
+  <div class="gp-viewer" id="gpViewer" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <div class="gp-viewer__top">
+      <button class="gp-vbtn" id="gpVClose" aria-label="Close" type="button">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg></button>
+      <div class="gp-viewer__meta"><b id="gpVTitle"></b><span id="gpVSub"></span></div>
+      <div class="gp-viewer__tools">
+        <button class="gp-vbtn" id="gpVShare" title="Share" aria-label="Share" type="button">
+          <svg viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13" /></svg></button>
+        <a class="gp-vbtn" id="gpVDownload" title="Download" aria-label="Download" download>
+          <svg viewBox="0 0 24 24"><path d="M12 4v12m0 0-5-5m5 5 5-5M4 20h16" /></svg></a>
+        <button class="gp-vbtn" id="gpVInfo" title="Info" aria-label="Info" type="button">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 11v6M12 7.5v.5" /></svg></button>
+        <button class="gp-vbtn" id="gpVDelete" title="Delete" aria-label="Delete" type="button">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" /></svg></button>
+      </div>
+    </div>
+    <button class="gp-vnav gp-vnav--prev" id="gpVPrev" aria-label="Previous" type="button">‹</button>
+    <div class="gp-viewer__stage" id="gpVStage"></div>
+    <button class="gp-vnav gp-vnav--next" id="gpVNext" aria-label="Next" type="button">›</button>
+    <aside class="gp-info" id="gpInfo" hidden></aside>
+  </div>
+
+  <!-- confirm dialog -->
+  <div class="gp-confirm" id="gpConfirm" hidden role="alertdialog" aria-modal="true" aria-labelledby="gpConfirmTitle">
+    <div class="gp-confirm__box">
+      <h4 id="gpConfirmTitle"></h4>
+      <p id="gpConfirmText"></p>
+      <div class="gp-confirm__btns">
+        <button class="btn btn--outline" id="gpConfirmCancel" type="button">Cancel</button>
+        <button class="btn gp-btn-danger" id="gpConfirmOk" type="button">Delete</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══════════ IMAGE BREAK — Baspa Valley ═══════════ -->
   <div class="img-break">
@@ -861,7 +849,7 @@
           <span class="footer__icon">🏔</span>
           <div>
             <h3>Sarthak Handa's Chitkul · Kalpa · Kinnaur</h3>
-            <p>Dec 4–9, 2025 · 5 Nights · 6 Days</p>
+            <p>Dec 4–9, 2026 · 5 Nights · 6 Days</p>
           </div>
         </div>
         <div class="footer__links">
@@ -878,8 +866,10 @@
   </footer>
 
   <script src="script.js"></script>
-  <script src="map-data.js"></script>
-  <script src="simulator.js"></script>
+  <!-- 3D simulator (falls back to map-data.js + simulator.js automatically without WebGL) -->
+  <script src="geo3d-data.js"></script>
+  <script src="simulator3d.js"></script>
+  <script type="module" src="gallery.js"></script>
 </body>
 
 </html>

@@ -884,3 +884,65 @@ body { font-family: var(--font); letter-spacing: -0.011em; -webkit-font-smoothin
   color: var(--text-primary);
 }
 .img-break__title { color: var(--text-primary); text-shadow: none; font-size: clamp(1.05rem, 2.2vw, 1.5rem); }
+
+/* hero: keep "Kalpa · Kinnaur" on one line; Apple-case logo */
+.hero__place--accent { font-size: clamp(1.7rem, min(4.2vw, 6.5vh), 3.4rem); white-space: nowrap; }
+.nav.at-hero .nav__logo, .nav__logo { text-transform: none; }
+
+/* ============================================================
+   3D SIMULATOR (MapLibre) — markers, vehicle, map container
+   ============================================================ */
+.geo-stage--3d .geo-map, .geo-stage--3d .geo-map.maplibregl-map { position: absolute; inset: 0; width: 100%; height: 100%; }
+.geo-stage--3d { background: linear-gradient(180deg, #cfe0ff, #f8f9ff); contain: none; }
+.geo-stage--3d .maplibregl-canvas { outline: none; }
+.geo-stage--3d .geo-vignette { display: none; }
+.geo-stage--3d .geo-hud, .geo-stage--3d .geo-title, .geo-stage--3d .geo-card,
+.geo-stage--3d .geo-start, .geo-stage--3d .geo-corner, .geo-stage--3d .geo-explore { z-index: 5; }
+.geo-stage--3d .maplibregl-ctrl-bottom-left { z-index: 4; }
+.geo-stage--3d .maplibregl-ctrl-attrib { font-size: 10px; }
+.geo-stage--3d.is-explorable .geo-map { cursor: grab; }
+
+.g3-mk { position: relative; width: 0; height: 0; opacity: 0; transition: opacity 0.6s; pointer-events: none; }
+.g3-mk.on { opacity: 1; }
+.g3-mk__dot {
+  position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--blue); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(37, 99, 255, 0.5);
+}
+.g3-mk.is-major .g3-mk__dot { left: -9px; top: -9px; width: 18px; height: 18px; }
+.g3-mk--delhi .g3-mk__dot { background: var(--orange); }
+.g3-mk.hit .g3-mk__dot { background: var(--pink); box-shadow: 0 2px 10px rgba(236, 72, 153, 0.6); }
+.g3-mk__pulse { position: absolute; left: -22px; top: -22px; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--pink); opacity: 0; }
+.g3-mk.hit .g3-mk__pulse { animation: fxPulse 1.8s ease-out infinite; }
+.g3-mk__label {
+  position: absolute; left: 14px; top: -14px; white-space: nowrap;
+  display: flex; flex-direction: column; line-height: 1.15;
+  background: rgba(255, 255, 255, 0.92); padding: 4px 9px; border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(20, 26, 51, 0.15);
+}
+.g3-mk.is-left .g3-mk__label { left: auto; right: 14px; align-items: flex-end; }
+.g3-mk__label b { font-size: 12.5px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.01em; }
+.g3-mk__label small { font-size: 10.5px; font-weight: 600; color: var(--violet); }
+
+.g3-poi {
+  font-size: 11px; font-weight: 600; color: #334155; white-space: nowrap; pointer-events: none;
+  background: rgba(255, 255, 255, 0.85); padding: 3px 8px; border-radius: 8px; margin-left: 4px;
+}
+.g3-poi span { color: #64748b; }
+
+.g3-veh { width: 34px; height: 34px; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+.g3-veh.on { opacity: 1; }
+.g3-veh svg { position: absolute; inset: 5px; width: 24px; height: 24px; fill: var(--pink); stroke: #fff; stroke-width: 1.6; stroke-linejoin: round; filter: drop-shadow(0 2px 4px rgba(0,0,0,.35)); }
+.g3-veh__halo { position: absolute; inset: 0; border-radius: 50%; background: rgba(236, 72, 153, 0.18); border: 1.5px solid rgba(236, 72, 153, 0.6); animation: fxHalo 1.2s ease-in-out infinite; }
+
+.geo-explore {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+  font-size: 0.8rem; font-weight: 600; color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.92); padding: 7px 14px; border-radius: 980px; box-shadow: var(--shadow-md);
+  pointer-events: none; white-space: nowrap;
+}
+.geo-explore[hidden] { display: none; }
+@media (max-width: 760px) {
+  .g3-mk__label b { font-size: 11px; }
+  .g3-mk__label small { display: none; }
+  .geo-explore { font-size: 0.7rem; bottom: 10px; }
+}
